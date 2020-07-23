@@ -11,10 +11,12 @@ class ParkingController < ActionController::API
     @parking = Parking.new(parking_params)
     if @parking.save
       ParkingMailer.registration(@parking).deliver_later
-      redirect_to registered_path
       ParkingMailer.confirmation(@parking).deliver_later if EmailValidator.valid?(@parking[:contact])
+      response = { success: true }
+      render json: response
     else
-      render action: "index"
+      response = { success: false }
+      render json: response
     end
   end
 
