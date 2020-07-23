@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ParkingController < ActionController::API
-
   def index
     @parking = Parking.new
     render json: @parking
@@ -13,11 +12,10 @@ class ParkingController < ActionController::API
       ParkingMailer.registration(@parking).deliver_later
       ParkingMailer.confirmation(@parking).deliver_later if EmailValidator.valid?(@parking[:contact])
       response = { success: true }
-      render json: response
     else
       response = { success: false }
-      render json: response
     end
+    render json: response
   end
 
   def registered; end

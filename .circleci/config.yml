@@ -72,18 +72,6 @@ jobs:
           name: YAML lint
           command: yamllint config/locales/
 
-      - run:
-          name: NPM lint
-          command: npm lint
-
-      - run:
-          name: Stylelint
-          command: npm stylelint
-
-      - run:
-          name: Yart test && CodeCov
-          command: npm run codecov
-
       # collect reports
       - store_test_results:
           path: /tmp/test-results
