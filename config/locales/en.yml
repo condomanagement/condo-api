@@ -27,7 +27,70 @@
 #   'true': 'foo'
 #
 # To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
+# available at http://guides.rubyonrails.org/i18n.html.
+---
 en:
-  hello: "Hello world"
+  title: "Arrow Lofts Visitor Parking"
+  nav:
+    brand-alt: "Arrow Lofts"
+    login: "Log in"
+  footer:
+    brand: "Arrow Lofts"
+    address-one: "112 Benton Street"
+    address-two: "Kitchener, Ontario N2G 3H6"
+    mission: "A beautiful home in a beautiful city."
+    additional-resources: "Additional Resources"
+    links:
+      one: "https://wscc556.evercondo.com/"
+      one-text: "Evercondo"
+      two: "https://www.kitchener.ca/"
+      two-text: "City of Kitchener"
+      three: "https://www.kitchener.ca/en/getting-around/parking.aspx"
+      three-text: "Kitchener Parking Information"
+    copyright: "Built by David"
+    copyright-link: "https://github.com/djensenius/parking"
+  parking:
+    heading: "Visitor Parking"
+    image-alt: "Arrow Lofts"
+    form:
+      title: "Register a Vehicle"
+      error: "Error saving registration"
+      code: "Code Number"
+      unit: "Unit Number"
+      make: "Vehicle Make"
+      color: "Vehicle Colour"
+      license: "License Plate"
+      button: "Register"
+      start_date: "Start Date"
+      end_date: "End Date"
+      contact: "Email or Phone Number"
+      code_tip: "If you do not know your code, contact the property manager."
+  registration:
+    thank-you: "Thank you"
+    body: |
+      The vehicle has been registered.
+      If you receive a ticket in error please contact the property manager.
+  admin:
+    title: "Arrow Parking Administration"
+    date: "Date Registered"
+    delete: "Delete"
+    delete_confirmation:
+      Are you sure? This will permanently remove this registration.
+    no_today: "No registered vehicles today."
+    no_future: "No future registered vehicles."
+    download: "Download all records"
+  email:
+    subject: "Arrow Lofts Visitor Parking Registration"
+    title: "Arrow Lofts Visitor Parking Registration"
+    introduction: "A visitor vehicle has registered to park at Arrow Lofts."
+    salutation: "All the best!"
+    signature: "Arrow Lofts Parking Robot"
+    street_address: "Street Address"
+    actual_street_address: "112 Benton Street"
+    confirmation:
+      subject: "Arrow Lofts Visitor Parking Registration Confirmation"
+      title: "Arrow Lofts Visitor Parking Registration Confirmation"
+      introduction: |
+        You registered the following vehicle to use visitor parking.
+  errors:
+    too_long: "You cannot register a vehicle for this length of time."
