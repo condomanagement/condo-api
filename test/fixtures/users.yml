@@ -2,15 +2,24 @@
 
 one:
   name: MyString
-  unit: 
+  unit: 100
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false
+  active: true
+
+two:
+  name: MyString
+  unit: 200
   email: MyString
   phone: MyString
   active: false
   admin: false
 
-two:
-  name: MyString
-  unit: 
+three:
+  name: MyString!!!
+  unit:
   email: MyString
   phone: MyString
   active: false

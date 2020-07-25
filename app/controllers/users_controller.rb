@@ -40,11 +40,44 @@ class UsersController < ActionController::API
     render json: @user, status: :ok
   end
 
+  # POST /upload
+  def upload
+    if valid_token?
+      begin
+        @result = JSON.parse request.parameters[:body]
+        create_users_from_upload
+      rescue JSON::ParserError
+        render json: { error: "invalid_json" }, status: :unprocessable_entity
+      end
+    else
+      render json: { error: "invalid_token" }, status: :unprocessable_entity
+    end
+  end
+
 private
+
+  def create_users_from_upload
+    saved = true
+    ActiveRecord::Base.transaction do
+      @users = @result.map do |person|
+        User.create!(person)
+      end
+    rescue ActiveRecord::RecordInvalid
+      saved = false
+      render json: { error: "missing_required_fields" }, status: :unprocessable_entity
+    end
+    render json: { success: true } if saved
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def valid_token?
+    return true if request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
+
+    false
   end
 
   # Only allow a list of trusted parameters through.
