@@ -1,24 +1,7 @@
-# README
+# Condo API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Server API for condo resource management.
 
-Things you may want to cover:
+This is a work in progress, more details to be added once the project is near completion.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Please consider [Sponsoring me](https://github.com/sponsors/djensenius)
