@@ -15,8 +15,10 @@ if ENV["CI"] == "true"
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
-require_relative "../config/environment"
+# require_relative "../config/environment"
+require File.expand_path("../config/environment", __dir__)
 require "rails/test_help"
+require "support/action_mailer_helpers"
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -26,4 +28,6 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  include ActionMailerHelpers
+  Timecop.safe_mode = true
 end
