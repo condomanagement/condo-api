@@ -24,3 +24,11 @@ three:
   phone: MyString
   active: false
   admin: false
+
+four:
+  name: MyString
+  unit: 200
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false

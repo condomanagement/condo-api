@@ -54,13 +54,21 @@ class UsersController < ActionController::API
     end
   end
 
+  def new_user(person)
+    if person && person["unit"] && person["email"]
+      return false if User.find_by(unit: person["unit"], email: person["email"])
+    end
+
+    true
+  end
+
 private
 
   def create_users_from_upload
     saved = true
     ActiveRecord::Base.transaction do
-      @users = @result.map do |person|
-        User.create!(person)
+      @result.each do |person|
+        User.create!(person) if new_user(person)
       end
     rescue ActiveRecord::RecordInvalid
       saved = false

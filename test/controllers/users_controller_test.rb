@@ -7,6 +7,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @user2 = users(:two)
     @user3 = users(:three)
+    @user4 = users(:four)
     @users = [@user, @user2, @user3]
   end
 
@@ -95,5 +96,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     err = { error: "missing_required_fields" }
     assert_equal @response.body, err.to_json
+  end
+
+  test "no duplicates" do
+    auth_token = ENV["ADMINISTRATIVE_TOKEN"]
+    User.destroy_all
+    @user.id = nil
+    @user2.id = nil
+    @users = [@user, @user2, @user4]
+    assert_difference("User.count", +2) do
+      post upload_url, params: { body: @users.to_json }, headers: { "X-Administrative-Token" => auth_token }
+      assert_response :success
+    end
   end
 end
