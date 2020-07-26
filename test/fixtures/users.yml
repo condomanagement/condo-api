@@ -1,0 +1,34 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  unit: 100
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false
+  active: true
+
+two:
+  name: MyString
+  unit: 200
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false
+
+three:
+  name: MyString!!!
+  unit:
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false
+
+four:
+  name: MyString
+  unit: 200
+  email: MyString
+  phone: MyString
+  active: false
+  admin: false
