@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= I18n.t("email.confirmation.title") %></h1>
+    <p>
+      <%= I18n.t("email.confirmation.introduction") %>
+    </p>
+    <p>
+      https://beta.arrowlofts.org/authenticate/<%= @authentication[:emailtoken] %>
+    </p>
+    <p><%= I18n.t("email.salutation") %></p>
+    <p><%= I18n.t("email.signature") %></p>
+  </body>
+</html>
