@@ -3,8 +3,8 @@
 class AuthenticationsController < ActionController::API
   def valid
     @authentication = Authentication.find_by(token: params[:token])
-    render json: { valid: true, user: @authentication.user } if @authentication
-    render json: { valid: false, error: "invalid_email" } unless @authentication
+    render json: { success: true, user: @authentication.user } if @authentication
+    render json: { success: false, error: "invalid_email" } unless @authentication
   end
 
   def login
@@ -24,7 +24,7 @@ class AuthenticationsController < ActionController::API
   end
 
   def process_login
-    @authentication = Authentication.find_by(emailtoken: params[:emailtoken])
+    @authentication = Authentication.find_by(emailtoken: params[:emailKey])
     if @authentication
       render json: { success: true, token: @authentication.token }
     else
@@ -35,7 +35,7 @@ class AuthenticationsController < ActionController::API
   def logout
     @authentication = Authentication.find_by(token: params[:token])
     if @authentication
-      @authentication.delete!
+      @authentication.delete
       render json: { success: true }
     else
       render json: { success: false, error: "invalid_token" }

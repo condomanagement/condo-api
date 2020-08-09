@@ -44,7 +44,7 @@ class UsersController < ActionController::API
   def upload
     if valid_token?
       begin
-        @result = JSON.parse request.parameters[:body]
+        @result = users_object
         create_users_from_upload
       rescue JSON::ParserError
         render json: { error: "invalid_json" }, status: :unprocessable_entity
@@ -52,6 +52,12 @@ class UsersController < ActionController::API
     else
       render json: { error: "invalid_token" }, status: :unprocessable_entity
     end
+  end
+
+  def users_object
+    @result = JSON.parse params[:file].tempfile.read if params[:file]
+    @result = JSON.parse request.parameters[:body] unless params[:file]
+    @result
   end
 
   def new_user(person)
@@ -84,6 +90,16 @@ private
 
   def valid_token?
     return true if request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
+    return true if admin?
+
+    false
+  end
+
+  def admin?
+    return false unless request.cookies["token"]
+
+    @authentication = Authentication.find_by(token: request.cookies["token"])
+    return true if @authentication.user.admin
 
     false
   end

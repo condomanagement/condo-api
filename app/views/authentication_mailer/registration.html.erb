@@ -9,7 +9,9 @@
       <%= I18n.t("email.confirmation.introduction") %>
     </p>
     <p>
-      https://beta.arrowlofts.org/authenticate/<%= @authentication[:emailtoken] %>
+      <a href=http://localhost:3001/authenticate/<%= @authentication[:emailtoken] %>>
+        http://localhost:3001/authenticate/<%= @authentication[:emailtoken] %>
+      </a>
     </p>
     <p><%= I18n.t("email.salutation") %></p>
     <p><%= I18n.t("email.signature") %></p>
