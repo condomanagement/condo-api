@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     end
     scope :authentication do
       post "login", to: "authentications#login"
+      post "process_login", to: "authentications#process_login"
+      post "valid", to: "authentications#valid"
+      post "logout", to: "authentications#logout"
     end
   end
 end
