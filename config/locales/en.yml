@@ -84,7 +84,7 @@ en:
     title: "Arrow Lofts Visitor Parking Registration"
     introduction: "A visitor vehicle has registered to park at Arrow Lofts."
     salutation: "All the best!"
-    signature: "Arrow Lofts Parking Robot"
+    signature: "Arrow Lofts Robot 💘🤖"
     street_address: "Street Address"
     actual_street_address: "112 Benton Street"
     confirmation:
@@ -92,5 +92,10 @@ en:
       title: "Arrow Lofts Visitor Parking Registration Confirmation"
       introduction: |
         You registered the following vehicle to use visitor parking.
+    authentication:
+      subject: "Arrow Lofts Login Link"
+      title: "Arrow Lofts Login Link"
+      introduction: |
+        Please click the link below to login to your account.
   errors:
     too_long: "You cannot register a vehicle for this length of time."

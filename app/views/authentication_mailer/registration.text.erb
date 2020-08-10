@@ -1,9 +1,9 @@
-<%= I18n.t("email.confirmation.title") %>
+<%= I18n.t("email.authentication.title") %>
 ========================================
 
-<%= I18n.t("email.confirmation.introduction") %>
+<%= I18n.t("email.authentication.introduction") %>
 
-https://beta.arrowlofts.org/authenticate/<%= @authentication[:emailtoken] %>
+<%= @link %>
 
 <%= I18n.t("email.salutation") %>
 <%= I18n.t("email.signature") %>
