@@ -4,13 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= I18n.t("email.confirmation.title") %></h1>
+    <h1><%= I18n.t("email.authentication.title") %></h1>
     <p>
-      <%= I18n.t("email.confirmation.introduction") %>
+      <%= I18n.t("email.authentication.introduction") %>
     </p>
     <p>
-      <a href=http://localhost:3001/authenticate/<%= @authentication[:emailtoken] %>>
-        http://localhost:3001/authenticate/<%= @authentication[:emailtoken] %>
+      <a href="<%= @link %>">
+        <%= @link %>
       </a>
     </p>
     <p><%= I18n.t("email.salutation") %></p>
