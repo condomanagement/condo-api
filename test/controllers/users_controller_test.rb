@@ -9,11 +9,36 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user3 = users(:three)
     @user4 = users(:four)
     @users = [@user, @user2, @user3]
+    @authentication = authentications(:two)
+    @token = @authentication.token
+  end
+
+  test "should not get index if unauthorized" do
+    get users_url
+    assert_response :unauthorized
   end
 
   test "should get index" do
-    get users_url
+    get users_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
     assert_response :success
+  end
+
+  test "should not create user if unauthorized" do
+    assert_difference("User.count", 0) do
+      post users_url, params:
+        {
+          user: {
+            active: @user.active,
+            admin: @user.admin,
+            email: @user.email,
+            name: @user.name,
+            phone: @user.phone,
+            unit: @user.unit
+          }
+        }
+    end
+
+    assert_response :unauthorized
   end
 
   test "should create user" do
@@ -28,6 +53,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
             phone: @user.phone,
             unit: @user.unit
           }
+        }, headers: {
+          "HTTP_COOKIE" => "token=" + @token + ";"
         }
     end
 
@@ -37,6 +64,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "should show user" do
     get user_url(@user)
     assert_response :success
+  end
+
+  test "should not update user if unauthorized" do
+    patch user_url(@user), params:
+      {
+        user: {
+          active: @user.active,
+          admin: @user.admin,
+          email: @user.email,
+          name: @user.name,
+          phone: @user.phone,
+          unit: @user.unit
+        }
+      }
+    assert_response :unauthorized
   end
 
   test "should update user" do
@@ -50,13 +92,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
           phone: @user.phone,
           unit: @user.unit
         }
+      }, headers: {
+        "HTTP_COOKIE" => "token=" + @token + ";"
       }
     assert_response :success
   end
 
+  test "should not destroy user if unauthorized" do
+    assert_difference("User.count", 0) do
+      delete user_url(@user)
+    end
+
+    assert_response :unauthorized
+  end
+
   test "should destroy user" do
     assert_difference("User.count", -1) do
-      delete user_url(@user)
+      delete user_url(@user), params: {}, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
     end
 
     assert_response :success

@@ -32,3 +32,13 @@ four:
   phone: MyString
   active: false
   admin: false
+
+admin:
+  name: ADMIN
+  unit: 100
+  email: MyString
+  phone: MyString
+  active: false
+  admin: true
+  active: true
+

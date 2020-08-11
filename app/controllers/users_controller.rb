@@ -5,6 +5,11 @@ class UsersController < ActionController::API
 
   # GET /users
   def index
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @users = User.all
     render json: @users, status: :ok
   end
@@ -16,6 +21,11 @@ class UsersController < ActionController::API
 
   # POST /users
   def create
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @user = User.new(user_params)
 
     if @user.save
@@ -27,6 +37,11 @@ class UsersController < ActionController::API
 
   # PATCH/PUT /users/1
   def update
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     if @user.update(user_params)
       render json: @user, status: :ok
     else
@@ -36,6 +51,11 @@ class UsersController < ActionController::API
 
   # DELETE /users/1
   def destroy
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @user.destroy
     render json: @user, status: :ok
   end
