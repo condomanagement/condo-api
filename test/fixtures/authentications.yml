@@ -6,6 +6,6 @@ one:
   token: MyString
 
 two:
-  user: two
+  user: admin
   emailtoken: MyString
-  token: MyString
+  token: MyToken

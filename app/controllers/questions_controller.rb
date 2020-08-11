@@ -7,25 +7,36 @@ class QuestionsController < ActionController::API
   # GET /questions.json
   def index
     @questions = Question.all
+    render json: @questions, status: :ok
   end
 
   # POST /questions
   # POST /questions.json
   def create
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @question = Question.new(question_params)
 
     if @question.save
       render json: @question, status: :created
     else
-      format.json { render json: @question.errors, status: :unprocessable_entity }
+      render json: @question.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /questions/1
   # PATCH/PUT /questions/1.json
   def update
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     if @question.update(question_params)
-      render json: @question, status: :ok, location: @question
+      render json: @question, status: :ok
     else
       render json: @question.errors, status: :unprocessable_entity
     end
@@ -34,6 +45,11 @@ class QuestionsController < ActionController::API
   # DELETE /questions/1
   # DELETE /questions/1.json
   def destroy
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @question.destroy
     head :no_content
   end

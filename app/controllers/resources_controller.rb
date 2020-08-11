@@ -7,11 +7,17 @@ class ResourcesController < ActionController::API
   # GET /resources.json
   def index
     @resources = Resource.all
+    render json: @resources, status: :ok
   end
 
   # POST /resources
   # POST /resources.json
   def create
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @resource = Resource.new(resource_params)
 
     if @resource.save
@@ -24,6 +30,11 @@ class ResourcesController < ActionController::API
   # PATCH/PUT /resources/1
   # PATCH/PUT /resources/1.json
   def update
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     if @resource.update(resource_params)
       render json: @resource, status: :ok
     else
@@ -34,6 +45,11 @@ class ResourcesController < ActionController::API
   # DELETE /resources/1
   # DELETE /resources/1.json
   def destroy
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @resource.destroy
     head :no_content
   end
