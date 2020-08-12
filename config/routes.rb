@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :reservations
   resources :authentications
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   scope :api do
+    resources :reservations
+    scope :reservations do
+      post "create", to: "reservations#create"
+    end
     resources :questions
     scope :questions do
       post "create", to: "questions#create"
