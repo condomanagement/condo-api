@@ -13,4 +13,11 @@ class User < ApplicationRecord
 
     false
   end
+
+  def self.user_by_token(token)
+    @authentication = Authentication.find_by(token: token)
+    return false unless @authentication
+
+    @authentication.user
+  end
 end

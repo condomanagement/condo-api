@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 0
   question: MyString
   required_answer: false
 
 two:
+  id: 1
   question: MyString
   required_answer: false
