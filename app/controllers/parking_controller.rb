@@ -13,7 +13,8 @@ class ParkingController < ActionController::API
       ParkingMailer.confirmation(@parking).deliver_later if EmailValidator.valid?(@parking[:contact])
       response = { success: true }
     else
-      response = { success: false }
+      render json: { error: "You did not fill out the entire form, or the lot is full." }, status: :unauthorized
+      return
     end
     render json: response
   end
