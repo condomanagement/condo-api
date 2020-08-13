@@ -11,8 +11,8 @@ class ReservationsController < ActionController::API
       return
     end
 
-    @reservations = Reservation.all
-    render json: @questions, status: :ok
+    @reservations = prep_reservation
+    render json: @reservations, status: :ok
   end
 
   # POST /reservations
@@ -91,5 +91,18 @@ private
                       params[:reservation][:start_time].to_datetime,
                       params[:reservation][:end_time].to_datetime,
                       params[:reservation][:resource_id]).empty?
+  end
+
+  def prep_reservation
+    @reservations = Reservation.all.map do |r|
+      {
+        id: r.id,
+        endTime: r.end_time,
+        startTime: r.start_time,
+        amenity: r.resource.name,
+        userName: r.user.name,
+        userEmail: r.user.email
+      }
+    end
   end
 end
