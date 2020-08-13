@@ -38,8 +38,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
       local_params = params[:parking].except(param)
       assert_no_enqueued_emails
       post parking_index_url, params: { parking: local_params }
-      failure = { success: false }
-      assert_response :success
+      failure = { error: "You did not fill out the entire form, or the lot is full." }
+      assert_response :unauthorized
       assert_equal failure.to_json, @response.body
       assert_no_enqueued_emails
     end
@@ -99,8 +99,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     local_params[:end_date] = Time.local(2020, 2, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
-    failure = { error: "You did not fill out the entire form, or the lot is full." }
-    assert_response :unauthorized
+    failure = { success: true }
+    assert_response :success
     assert_equal failure.to_json, @response.body
     assert_enqueued_emails 2
   end
