@@ -19,6 +19,39 @@ class ParkingController < ActionController::API
     render json: response
   end
 
+  def today
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @today = Parking.today
+
+    render json: @today
+  end
+
+  def past
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @past = Parking.past
+
+    render json: @past
+  end
+
+  def future
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @future = Parking.future
+
+    render json: @future
+  end
+
   def registered; end
 
   def terms; end

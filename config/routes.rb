@@ -18,11 +18,15 @@ Rails.application.routes.draw do
       post "create", to: "resources#create"
       delete "destroy/:id", to: "resources#destroy"
     end
-    resources :parking
     scope :parking do
       post "create", to: "parking#create"
       delete "destroy/:id", to: "parking#destroy"
+      get "today", to: "parking#today"
+      get "past", to: "parking#past"
+      get "future", to: "parking#future"
     end
+    resources :parking
+
     resources :users
     scope :users do
       post "upload", to: "users#upload"
