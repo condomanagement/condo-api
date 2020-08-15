@@ -27,7 +27,9 @@ class ParkingController < ActionController::API
 
     @today = Parking.today
 
-    render json: @today
+    @it_today = prep_parking(@today)
+
+    render json: @it_today
   end
 
   def past
@@ -37,8 +39,9 @@ class ParkingController < ActionController::API
     end
 
     @past = Parking.past
+    @the_past = prep_parking(@past)
 
-    render json: @past
+    render json: @the_past
   end
 
   def future
@@ -49,16 +52,29 @@ class ParkingController < ActionController::API
 
     @future = Parking.future
 
-    render json: @future
+    @the_future = prep_parking(@future)
+
+    render json: @the_future
   end
-
-  def registered; end
-
-  def terms; end
 
 private
 
   def parking_params
     params.require(:parking).permit(:code, :unit, :make, :color, :license, :start_date, :end_date, :contact)
+  end
+
+  def prep_parking(parking)
+    parking.map do |p|
+      {
+        id: p.id,
+        make: p.make,
+        contact: p.contact,
+        license: p.license,
+        color: p.color,
+        startDate: p.start_date,
+        endDate: p.end_date,
+        unit: p.unit
+      }
+    end
   end
 end
