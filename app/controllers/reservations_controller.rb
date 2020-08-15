@@ -70,6 +70,9 @@ class ReservationsController < ActionController::API
   # DELETE /reservations/1
   # DELETE /reservations/1.json
   def destroy
+    @user = User.user_by_token(request.cookies["token"])
+    return if @user != @reservation.user
+
     @reservation.destroy
     head :no_content
   end

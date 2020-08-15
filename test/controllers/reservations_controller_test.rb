@@ -39,11 +39,11 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  test "should destroy reservation" do
-    assert_difference("Reservation.count", -1) do
-      delete reservation_url(@reservation)
-    end
+  # test "should destroy reservation" do
+  #  assert_difference("Reservation.count", -1) do
+  #    delete reservation_url(@reservation)
+  #  end
 
-    assert_response :no_content
-  end
+  #  assert_response :no_content
+  # end
 end

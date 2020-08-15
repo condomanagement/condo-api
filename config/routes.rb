@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get "mine", to: "reservations#mine"
       post "create", to: "reservations#create"
       post "find_reservations", to: "reservations#find_reservations"
+      delete "destroy/:id", to: "reservations#destroy"
     end
     resources :reservations
 
