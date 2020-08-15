@@ -96,9 +96,15 @@ private
   end
 
   def valid_time?
+    start_time = Time.zone.parse(params[:reservation][:start_time])
+    end_time = Time.zone.parse(params[:reservation][:end_time])
+    query_valid_time(start_time, end_time)
+  end
+
+  def query_valid_time(start_time, end_time)
     Reservation.where("(start_time, end_time) OVERLAPS (?, ?) AND resource_id = ?",
-                      params[:reservation][:start_time].to_datetime,
-                      params[:reservation][:end_time].to_datetime,
+                      start_time,
+                      end_time,
                       params[:reservation][:resource_id]).empty?
   end
 
