@@ -74,6 +74,22 @@ class ReservationsController < ActionController::API
     head :no_content
   end
 
+  def mine
+    @user = User.user_by_token(request.cookies["token"])
+    render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
+
+    @my_reservations = Reservation.where(user: @user).map do |r|
+      {
+        id: r.id,
+        startTime: r.start_time,
+        endTime: r.end_time,
+        amenity: r.resource.name
+      }
+    end
+
+    render json: @my_reservations, status: :ok
+  end
+
 private
 
   # Use callbacks to share common setup or constraints between actions.
