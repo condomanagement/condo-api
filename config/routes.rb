@@ -4,11 +4,14 @@ Rails.application.routes.draw do
   resources :authentications
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   scope :api do
-    resources :reservations
     scope :reservations do
+      get "mine", to: "reservations#mine"
       post "create", to: "reservations#create"
       post "find_reservations", to: "reservations#find_reservations"
+      delete "destroy/:id", to: "reservations#destroy"
     end
+    resources :reservations
+
     resources :questions
     scope :questions do
       post "create", to: "questions#create"
