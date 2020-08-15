@@ -58,6 +58,15 @@ class ReservationsController < ActionController::API
     end
   end
 
+  def find_reservations
+    @user = User.user_by_token(request.cookies["token"])
+    render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
+    render json: { error: "Bad query" }, status: :error and return unless params[:date] || params[:resource]
+
+    @reservations = query_reservations
+    render json: @reservations, status: :ok
+  end
+
   # DELETE /reservations/1
   # DELETE /reservations/1.json
   def destroy
@@ -102,6 +111,25 @@ private
         amenity: r.resource.name,
         userName: r.user.name,
         userEmail: r.user.email
+      }
+    end
+  end
+
+  def query_reservations
+    @reservations = Reservation.select(:id, :start_time, :end_time).where(
+      [
+        "resource_id = ? and start_time >= ?::date and end_time <= ?::date + '1 day'::interval",
+        params[:resource],
+        Date.parse(params[:date]),
+        Date.parse(params[:date])
+      ]
+    )
+
+    @reservations.map do |r|
+      {
+        id: r.id,
+        startTime: r.start_time,
+        endTime: r.end_time
       }
     end
   end

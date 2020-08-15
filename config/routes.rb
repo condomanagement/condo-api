@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :reservations
     scope :reservations do
       post "create", to: "reservations#create"
+      post "find_reservations", to: "reservations#find_reservations"
     end
     resources :questions
     scope :questions do
