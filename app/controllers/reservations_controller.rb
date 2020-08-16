@@ -147,10 +147,10 @@ private
   def query_reservations
     @reservations = Reservation.select(:id, :start_time, :end_time).where(
       [
-        "resource_id = ? and start_time >= ?::date and end_time <= ?::date + '1 day'::interval",
+        "resource_id = ? and start_time >= ? and end_time <= ?",
         params[:resource],
-        to_local_date(params[:date]).beginning_of_day,
-        to_local_date(params[:date]).end_of_day
+        to_local_date(params[:startDay]),
+        to_local_date(params[:endDay]).end_of_day
       ]
     )
 
