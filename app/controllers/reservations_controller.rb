@@ -153,8 +153,11 @@ private
         to_local_date(params[:endDay]).end_of_day
       ]
     )
+    map_reservations(@reservations)
+  end
 
-    @reservations.map do |r|
+  def map_reservations(reservations)
+    reservations.map do |r|
       {
         id: r.id,
         startTime: r.start_time,
