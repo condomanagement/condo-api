@@ -140,13 +140,17 @@ private
     end
   end
 
+  def to_local_date(date)
+    DateTime.parse(date).localtime
+  end
+
   def query_reservations
     @reservations = Reservation.select(:id, :start_time, :end_time).where(
       [
         "resource_id = ? and start_time >= ?::date and end_time <= ?::date + '1 day'::interval",
         params[:resource],
-        Date.parse(params[:date]),
-        Date.parse(params[:date])
+        to_local_date(params[:date]).beginning_of_day,
+        to_local_date(params[:date]).end_of_day
       ]
     )
 
