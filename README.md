@@ -16,4 +16,12 @@ Postgres 12.4
 5. Copy `.env.sample` to `.env` and enter information
 5. `rails server -e development`
 
+## Linting
+
+Run `rubocop` to lint.
+
+## Testing
+
+Run `rails test` to test.
+
 Please consider [Sponsoring me](https://github.com/sponsors/djensenius)
