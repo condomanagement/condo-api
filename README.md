@@ -2,6 +2,18 @@
 
 Server API for condo resource management.
 
-This is a work in progress, more details to be added once the project is near completion.
+## Requirement
+Ruby 2.7.1
+
+Postgres 12.4
+
+## Setup / installation
+
+1. Clone repo
+2. `bundle install`
+3. `rails db:setup`
+4. `rails db:migrate`
+5. Copy `.env.sample` to `.env` and enter information
+5. `rails server -e development`
 
 Please consider [Sponsoring me](https://github.com/sponsors/djensenius)
