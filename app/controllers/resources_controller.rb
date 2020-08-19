@@ -7,7 +7,14 @@ class ResourcesController < ActionController::API
   # GET /resources.json
   def index
     @resources = Resource.all
-    render json: @resources, status: :ok
+    converted_resources = @resources.map do |r|
+      {
+        id: r.id,
+        name: r.name,
+        timeLimit: r.time_limit
+      }
+    end
+    render json: converted_resources, status: :ok
   end
 
   # POST /resources
@@ -63,6 +70,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def resource_params
-    params.require(:resource).permit(:name)
+    params.require(:resource).permit(:name, :time_limit)
   end
 end

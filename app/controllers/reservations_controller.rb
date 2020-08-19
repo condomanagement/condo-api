@@ -25,6 +25,7 @@ class ReservationsController < ActionController::API
     @reservation.user = @user
 
     render json: { error: "The time selected is not available." }, status: :unauthorized and return unless valid_time?
+    render json: { error: "Reservation time to long." }, status: :unauthorized and return false unless valid_length?
 
     save_reservation
   end
@@ -125,6 +126,19 @@ private
                       start_time,
                       end_time,
                       params[:reservation][:resource_id]).empty?
+  end
+
+  def valid_length?
+    @resource = Resource.find(params[:reservation][:resource_id])
+    return false if time_diff > @resource.time_limit
+
+    true
+  end
+
+  def time_diff
+    start_time = Time.parse(params[:reservation][:start_time])
+    end_time = Time.parse(params[:reservation][:end_time])
+    (end_time - start_time) / 60
   end
 
   def prep_reservation
