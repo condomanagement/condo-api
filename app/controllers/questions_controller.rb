@@ -6,7 +6,7 @@ class QuestionsController < ActionController::API
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = Question.all.order("question ASC")
     render json: @questions, status: :ok
   end
 
