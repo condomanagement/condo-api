@@ -35,6 +35,8 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
           resource_id: @reservation.resource_id,
           user_id: @reservation.user_id
         }
+      }, headers: {
+        "HTTP_COOKIE" => "token=" + @token + ";"
       }
     assert_response :ok
   end

@@ -62,7 +62,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user" do
-    get user_url(@user)
+    get user_url(@user), headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
     assert_response :success
   end
 

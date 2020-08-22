@@ -52,6 +52,9 @@ class ReservationsController < ActionController::API
 
   # PATCH/PUT /reservations/1.json
   def update
+    @user = User.user_by_token(request.cookies["token"])
+    render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
+
     if @reservation.update(reservation_params)
       render json: @reservation, status: :ok
     else
