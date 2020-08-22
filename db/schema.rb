@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_003319) do
+ActiveRecord::Schema.define(version: 2020_08_22_002330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,18 @@ ActiveRecord::Schema.define(version: 2020_08_19_003319) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer "time_limit", default: 60
     t.index ["resource_id"], name: "index_reservations_on_resource_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
+  create_table "resource_questions", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "resource_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_resource_questions_on_question_id"
+    t.index ["resource_id"], name: "index_resource_questions_on_resource_id"
   end
 
   create_table "resources", force: :cascade do |t|
@@ -77,4 +87,6 @@ ActiveRecord::Schema.define(version: 2020_08_19_003319) do
   add_foreign_key "authentications", "users"
   add_foreign_key "reservations", "resources"
   add_foreign_key "reservations", "users"
+  add_foreign_key "resource_questions", "questions"
+  add_foreign_key "resource_questions", "resources"
 end

@@ -22,6 +22,13 @@ Rails.application.routes.draw do
       post "create", to: "resources#create"
       delete "destroy/:id", to: "resources#destroy"
     end
+
+    resources :resource_questions
+    scope :resource_questions do
+      post "create", to: "resource_questions#create"
+      post "remove", to: "resource_questions#remove"
+    end
+
     scope :parking do
       post "create", to: "parking#create"
       delete "destroy/:id", to: "parking#destroy"

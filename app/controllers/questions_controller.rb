@@ -7,7 +7,14 @@ class QuestionsController < ActionController::API
   # GET /questions.json
   def index
     @questions = Question.all.order("question ASC")
-    render json: @questions, status: :ok
+    questions = @questions.map do |q|
+      {
+        id: q.id,
+        question: q.question,
+        amenities: q.resources
+      }
+    end
+    render json: questions, status: :ok
   end
 
   # POST /questions
