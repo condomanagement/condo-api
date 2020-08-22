@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Arrow Lofts Login Link</h1>
+    <p>
+      Please click the link below to login to your account.
+
+    </p>
+    <p>
+      <a href="http://localhost:3001/authenticate/db4e67c3-fa2e-40e2-adb0-22ad1284db79">
+        http://localhost:3001/authenticate/db4e67c3-fa2e-40e2-adb0-22ad1284db79
+      </a>
+    </p>
+    <p>All the best!</p>
+    <p>Arrow Lofts Robot 💘🤖</p>
+  </body>
+</html>
+
+  </body>
+</html>

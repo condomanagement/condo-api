@@ -3,6 +3,11 @@
 require "test_helper"
 
 class ParkingControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @authentication = authentications(:two)
+    @token = @authentication.token
+  end
+
   params =
     {
       parking: {
@@ -103,5 +108,35 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal failure.to_json, @response.body
     assert_enqueued_emails 2
+  end
+
+  test "do not display today if invalid token" do
+    get today_url
+    assert_response :unauthorized
+  end
+
+  test "today" do
+    get today_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "do not display future if invalid token" do
+    get future_url
+    assert_response :unauthorized
+  end
+
+  test "future" do
+    get future_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "do not display past if invalid token" do
+    get past_url
+    assert_response :unauthorized
+  end
+
+  test "past" do
+    get past_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
   end
 end

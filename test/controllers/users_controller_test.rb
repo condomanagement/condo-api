@@ -11,6 +11,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @users = [@user, @user2, @user3]
     @authentication = authentications(:two)
     @token = @authentication.token
+    @auth_user = authentications(:one)
+    @user_token = @auth_user.token
   end
 
   test "should not get index if unauthorized" do
@@ -41,6 +43,44 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "should not create user if not admin" do
+    assert_difference("User.count", 0) do
+      post users_url, params:
+        {
+          user: {
+            active: @user.active,
+            admin: @user.admin,
+            email: @user.email,
+            name: @user.name,
+            phone: @user.phone,
+            unit: @user.unit
+          }
+        }, headers: {
+          "HTTP_COOKIE" => "token=" + @user_token + ";"
+        }
+    end
+
+    assert_response :unauthorized
+  end
+
+  test "should not create user if data is invalid" do
+    assert_difference("User.count", 0) do
+      post users_url, params:
+        {
+          user: {
+            active: @user.active,
+            admin: @user.admin,
+            email: @user.email,
+            phone: @user.phone
+          }
+        }, headers: {
+          "HTTP_COOKIE" => "token=" + @token + ";"
+        }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
   test "should create user" do
     assert_difference("User.count") do
       post users_url, params:
@@ -66,6 +106,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should not show user if unauthorized" do
+    get user_url(@user), headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    assert_response :unauthorized
+  end
+
   test "should not update user if unauthorized" do
     patch user_url(@user), params:
       {
@@ -79,6 +124,21 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         }
       }
     assert_response :unauthorized
+  end
+
+  test "should not update user if invalid data" do
+    patch user_url(@user), params:
+      {
+        user: {
+          active: @user.active,
+          admin: @user.admin,
+          phone: @user.phone,
+          unit: "abc"
+        }
+      }, headers: {
+        "HTTP_COOKIE" => "token=" + @token + ";"
+      }
+    assert_response :unprocessable_entity
   end
 
   test "should update user" do
@@ -120,6 +180,22 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     err = { error: "invalid_token" }
     assert_equal @response.body, err.to_json
+  end
+
+  test "valid admin cookie and data should update users" do
+    @user.id = nil
+    @user2.id = nil
+    @users = [@user, @user2]
+    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :success
+  end
+
+  test "valid user (not admin) token and data should not update users" do
+    @user.id = nil
+    @user2.id = nil
+    @users = [@user, @user2]
+    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    assert_response :unprocessable_entity
   end
 
   test "valid token and data should update users" do

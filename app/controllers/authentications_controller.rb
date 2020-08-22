@@ -42,13 +42,6 @@ class AuthenticationsController < ActionController::API
     end
   end
 
-  def user_admin_by_token?
-    @authentication = Authentication.find_by(token: params[:token])
-    return true if @authentication.user.admin
-
-    false
-  end
-
 private
 
   def set_authentication
