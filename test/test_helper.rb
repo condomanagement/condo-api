@@ -11,6 +11,8 @@ SimpleCov.start "rails" do
   add_filter "app/helpers/authentications_helper.rb"
 end
 
+SimpleCov.formatter = SimpleCov::Formatter::Console
+
 if ENV["CI"] == "true"
   require "codecov"
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
