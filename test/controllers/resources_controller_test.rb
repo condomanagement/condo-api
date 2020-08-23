@@ -9,6 +9,11 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
     @token = @authentication.token
   end
 
+  test "index" do
+    get resources_url
+    assert_response :success
+  end
+
   test "should not create resource if unauthorized" do
     post resources_url, params: { resource: { name: @resource.name } }
 

@@ -9,6 +9,11 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
     @token = @authentication.token
   end
 
+  test "index" do
+    get questions_url
+    assert_response :success
+  end
+
   test "should not create question if not authorized" do
     post questions_url, params: {
       question: {

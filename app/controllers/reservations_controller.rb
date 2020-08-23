@@ -52,6 +52,9 @@ class ReservationsController < ActionController::API
 
   # PATCH/PUT /reservations/1.json
   def update
+    @user = User.user_by_token(request.cookies["token"])
+    render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
+
     if @reservation.update(reservation_params)
       render json: @reservation, status: :ok
     else
@@ -62,7 +65,9 @@ class ReservationsController < ActionController::API
   def find_reservations
     @user = User.user_by_token(request.cookies["token"])
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
-    render json: { error: "Bad query" }, status: :error and return unless params[:date] || params[:resource]
+    unless params[:date] || params[:resource]
+      render json: { error: "Bad query" }, status: :unprocessable_entity and return
+    end
 
     @reservations = query_reservations
     render json: @reservations, status: :ok

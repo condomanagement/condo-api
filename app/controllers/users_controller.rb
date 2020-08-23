@@ -16,6 +16,10 @@ class UsersController < ActionController::API
 
   # GET /users/1
   def show
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
     render json: @user, status: :ok
   end
 
