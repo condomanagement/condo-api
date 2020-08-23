@@ -11,7 +11,8 @@ class ResourcesController < ActionController::API
       {
         id: r.id,
         name: r.name,
-        timeLimit: r.time_limit
+        timeLimit: r.time_limit,
+        questions: r.questions
       }
     end
     render json: converted_resources, status: :ok
