@@ -8,7 +8,7 @@ class AuthenticationsController < ActionController::API
   end
 
   def login
-    @user = User.find_by email: params[:email]
+    @user = User.where("LOWER(email) = ?", params[:email].downcase).first
     if @user
       @authentication = Authentication.new(
         emailtoken: SecureRandom.uuid,
