@@ -32,12 +32,13 @@ class ReservationsController < ActionController::API
 
   def valid_form?
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
-    render json: { error: "Please answer all questions." }, status: :unauthorized and return false unless valid_answers?
 
     if params[:reservation][:resource_id] == "null"
       render json: { error: "Please selesct an amenity." }, status: :unauthorized
       return false
     end
+
+    render json: { error: "Please answer all questions." }, status: :unauthorized and return false unless valid_answers?
 
     true
   end
@@ -112,7 +113,7 @@ private
   end
 
   def valid_answers?
-    @questions = Question.all
+    @questions = Resource.find(params[:reservation][:resource_id]).questions
     @questions.each do |q|
       return false unless JSON.parse(params[:answers][0])[q.id]
     end
