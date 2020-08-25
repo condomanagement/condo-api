@@ -39,15 +39,27 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "test failure" do
-    [:unit, :make, :color, :license, :start_date, :end_date, :contact].each do |param|
+    vals = ["Unit", "Make", "Color", "License", "Start date", "End date", "Contact"]
+    [:unit, :make, :color, :license, :start_date, :end_date, :contact].each_with_index do |param, i|
       local_params = params[:parking].except(param)
       assert_no_enqueued_emails
       post parking_index_url, params: { parking: local_params }
-      failure = { error: "You did not fill out the entire form, or the lot is full." }
+      failure = { error: vals[i] + " can't be blank" }
       assert_response :unauthorized
       assert_equal failure.to_json, @response.body
       assert_no_enqueued_emails
     end
+  end
+
+  test "unit cannot be a number" do
+    unit_local_params = params[:parking].clone
+    unit_local_params[:unit] = "TEST"
+    assert_no_enqueued_emails
+    post parking_index_url, params: { parking: unit_local_params }
+    failure = { error: "Unit is not a number" }
+    assert_response :unauthorized
+    assert_equal failure.to_json, @response.body
+    assert_no_enqueued_emails
   end
 
   test "time too long same month" do
@@ -56,7 +68,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     local_params[:end_date] = Time.local(2020, 1, 12)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
-    failure = { error: "You did not fill out the entire form, or the lot is full." }
+    failure = { error: "You cannot register a vehicle for this length of time." }
     assert_response :unauthorized
     assert_equal failure.to_json, @response.body
     assert_no_enqueued_emails
@@ -68,7 +80,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     local_params[:end_date] = Time.local(2020, 2, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
-    failure = { error: "You did not fill out the entire form, or the lot is full." }
+    failure = { error: "You cannot register a vehicle for this length of time." }
     assert_response :unauthorized
     assert_equal failure.to_json, @response.body
     assert_no_enqueued_emails
@@ -80,7 +92,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     local_params[:end_date] = Time.local(2020, 2, 9)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
-    failure = { error: "You did not fill out the entire form, or the lot is full." }
+    failure = { error: "You cannot register a vehicle for this length of time." }
     assert_response :unauthorized
     assert_equal failure.to_json, @response.body
     assert_no_enqueued_emails
@@ -92,7 +104,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     local_params[:end_date] = Time.local(2020, 3, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
-    failure = { error: "You did not fill out the entire form, or the lot is full." }
+    failure = { error: "You cannot register a vehicle for this length of time." }
     assert_response :unauthorized
     assert_equal failure.to_json, @response.body
     assert_no_enqueued_emails
