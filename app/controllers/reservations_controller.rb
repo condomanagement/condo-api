@@ -25,7 +25,7 @@ class ReservationsController < ActionController::API
     @reservation.user = @user
 
     render json: { error: "The time selected is not available." }, status: :unauthorized and return unless valid_time?
-    render json: { error: "Reservation time to long." }, status: :unauthorized and return false unless valid_length?
+    render json: { error: "Reservation time too long." }, status: :unauthorized and return false unless valid_length?
 
     save_reservation
   end
