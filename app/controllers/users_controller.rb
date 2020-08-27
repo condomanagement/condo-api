@@ -123,7 +123,7 @@ private
     return false unless request.cookies["token"]
 
     @authentication = Authentication.find_by(token: request.cookies["token"])
-    return true if @authentication.user.admin
+    return true if @authentication.user.admin && @authentication&.user&.active
 
     false
   end
