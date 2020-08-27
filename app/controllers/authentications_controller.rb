@@ -3,12 +3,12 @@
 class AuthenticationsController < ActionController::API
   def valid
     @authentication = Authentication.find_by(token: params[:token])
-    render json: { success: true, user: @authentication.user } if @authentication
+    render json: { success: true, user: @authentication.user } if @authentication && @authentication&.user&.active
     render json: { success: false, error: "invalid_email" } unless @authentication
   end
 
   def login
-    @user = User.where("LOWER(email) = ?", params[:email].downcase).first
+    @user = User.where("LOWER(email) = ? AND active = true", params[:email].downcase).first
     if @user
       @authentication = Authentication.new(
         emailtoken: SecureRandom.uuid,
