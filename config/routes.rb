@@ -15,11 +15,13 @@ Rails.application.routes.draw do
     resources :questions
     scope :questions do
       post "create", to: "questions#create"
+      patch "update/:id", to: "questions#update"
       delete "destroy/:id", to: "questions#destroy"
     end
     resources :resources
     scope :resources do
       post "create", to: "resources#create"
+      patch "update/:id", to: "resources#update"
       delete "destroy/:id", to: "resources#destroy"
     end
 
