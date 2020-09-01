@@ -40,10 +40,13 @@ Rails.application.routes.draw do
     end
     resources :parking
 
-    resources :users
     scope :users do
       post "upload", to: "users#upload"
+      post "create", to: "users#create"
+      patch "update/:id", to: "users#update"
     end
+    resources :users
+
     scope :authentication do
       post "login", to: "authentications#login"
       post "process_login", to: "authentications#process_login"
