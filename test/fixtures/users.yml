@@ -5,7 +5,6 @@ one:
   unit: 100
   email: MyString
   phone: MyString
-  active: false
   admin: false
   active: true
 
@@ -14,8 +13,9 @@ two:
   unit: 200
   email: MyString
   phone: MyString
-  active: false
+  active: true
   admin: false
+  parking_admin: false
 
 three:
   name: MyString!!!
@@ -38,7 +38,14 @@ admin:
   unit: 100
   email: MyString
   phone: MyString
-  active: false
   admin: true
   active: true
 
+parkingadmin:
+  name: PARKING
+  unit: 100
+  email: MyString
+  phone: MyString
+  active: true
+  admin: false
+  parking_admin: true

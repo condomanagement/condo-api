@@ -9,3 +9,8 @@ two:
   user: admin
   emailtoken: MyString
   token: MyToken
+
+three:
+  user: parkingadmin
+  emailtoken: MyStringParking
+  token: MyTokenParking

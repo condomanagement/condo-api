@@ -6,6 +6,10 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   setup do
     @authentication = authentications(:two)
     @token = @authentication.token
+    @parking_authentication = authentications(:three)
+    @parking_token = @parking_authentication.token
+    @regular_user = authentications(:one)
+    @regular_token = @regular_user.token
   end
 
   params =
@@ -132,6 +136,11 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test "today as parking admin" do
+    get today_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    assert_response :ok
+  end
+
   test "do not display future if invalid token" do
     get future_url
     assert_response :unauthorized
@@ -139,6 +148,11 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "future" do
     get future_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "future as parking admin" do
+    get future_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
     assert_response :ok
   end
 
@@ -150,5 +164,15 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   test "past" do
     get past_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
     assert_response :ok
+  end
+
+  test "past as parking admin" do
+    get past_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    assert_response :ok
+  end
+
+  test "past as regular user" do
+    get past_url, headers: { "HTTP_COOKIE" => "token=" + @regular_token + ";" }
+    assert_response :unauthorized
   end
 end
