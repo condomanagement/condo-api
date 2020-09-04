@@ -15,6 +15,15 @@ class User < ApplicationRecord
     false
   end
 
+  def self.parking_admin_by_token?(token)
+    @authentication = Authentication.find_by(token: token)
+    return false unless @authentication
+
+    return true if @authentication.user[:parking_admin] && @authentication.user[:active]
+
+    false
+  end
+
   def self.user_by_token(token)
     @authentication = Authentication.find_by(token: token)
     return false unless @authentication && @authentication&.user&.active

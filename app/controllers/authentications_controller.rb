@@ -3,7 +3,8 @@
 class AuthenticationsController < ActionController::API
   def valid
     @authentication = Authentication.find_by(token: params[:token])
-    render json: { success: true, user: @authentication.user } if @authentication && @authentication&.user&.active
+    @user = format_user(@authentication.user) if @authentication&.user
+    render json: { success: true, user: @user } if @authentication && @user[:active]
     render json: { success: false, error: "invalid_email" } unless @authentication
   end
 
@@ -44,12 +45,25 @@ class AuthenticationsController < ActionController::API
 
 private
 
-  def set_authentication
-    @authentication = Authentication.find(params[:id])
-  end
+  # def set_authentication
+  #   @authentication = Authentication.find(params[:id])
+  # end
 
   # Only allow a list of trusted parameters through.
-  def authentication_params
-    params.require(:authentication).permit(:user_id, :emailtoken, :token)
+  # def authentication_params
+  #  params.require(:authentication).permit(:user_id, :emailtoken, :token)
+  # end
+
+  def format_user(user)
+    {
+      active: user.active,
+      admin: user.admin,
+      email: user.email,
+      id: user.id,
+      name: user.name,
+      parkingAdmin: user.parking_admin,
+      phone: user.phone,
+      unit: user.unit
+    }
   end
 end

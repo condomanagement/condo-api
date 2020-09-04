@@ -20,7 +20,7 @@ class ParkingController < ActionController::API
   end
 
   def today
-    unless User.admin_by_token?(request.cookies["token"])
+    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end
@@ -33,7 +33,7 @@ class ParkingController < ActionController::API
   end
 
   def past
-    unless User.admin_by_token?(request.cookies["token"])
+    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end
@@ -45,7 +45,7 @@ class ParkingController < ActionController::API
   end
 
   def future
-    unless User.admin_by_token?(request.cookies["token"])
+    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end

@@ -11,10 +11,22 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
     @token = @authentication.token
     @auth_user = authentications(:one)
     @user_token = @auth_user.token
+    @parking_authentication = authentications(:three)
+    @parking_token = @parking_authentication.token
   end
 
   test "valid" do
-    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    post valid_url, params: { token: @token }, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :success
+  end
+
+  test "valid user token" do
+    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    assert_response :success
+  end
+
+  test "valid parking admin token" do
+    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
     assert_response :success
   end
 
