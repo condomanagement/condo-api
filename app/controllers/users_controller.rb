@@ -10,7 +10,9 @@ class UsersController < ActionController::API
       return
     end
 
-    @users = User.all
+    @users = User.all.map do |u|
+      format_user(u)
+    end
     render json: @users, status: :ok
   end
 
@@ -130,6 +132,19 @@ private
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:name, :unit, :email, :phone, :active, :admin)
+    params.require(:user).permit(:name, :unit, :email, :phone, :active, :admin, :parking_admin)
+  end
+
+  def format_user(user)
+    {
+      active: user.active,
+      admin: user.admin,
+      email: user.email,
+      id: user.id,
+      name: user.name,
+      parkingAdmin: user.parking_admin,
+      phone: user.phone,
+      unit: user.unit
+    }
   end
 end
