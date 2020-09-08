@@ -11,7 +11,7 @@ class ReservationsController < ActionController::API
       return
     end
 
-    @reservations = prep_reservation
+    @reservations = prep_reservation(Reservation.all)
     render json: @reservations, status: :ok
   end
 
@@ -100,6 +100,39 @@ class ReservationsController < ActionController::API
     render json: @my_reservations, status: :ok
   end
 
+  def today
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @today = Reservation.today
+    @it_today = prep_reservation(@today)
+    render json: @it_today
+  end
+
+  def past
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @past = Reservation.past
+    @it_past = prep_reservation(@past)
+    render json: @it_past
+  end
+
+  def future
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @future = Reservation.future
+    @it_future = prep_reservation(@future)
+    render json: @it_future
+  end
+
 private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -147,8 +180,8 @@ private
     (end_time - start_time) / 60
   end
 
-  def prep_reservation
-    @reservations = Reservation.all.map do |r|
+  def prep_reservation(reservations)
+    reservations.map do |r|
       {
         id: r.id,
         endTime: r.end_time,

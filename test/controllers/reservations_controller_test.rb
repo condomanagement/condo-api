@@ -112,4 +112,34 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
       }
     assert_response :ok
   end
+
+  test "today" do
+    get today_reservations_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "today with no user" do
+    get today_reservations_url
+    assert_response :unauthorized
+  end
+
+  test "past" do
+    get past_reservations_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "past with no user" do
+    get past_reservations_url
+    assert_response :unauthorized
+  end
+
+  test "future" do
+    get future_reservations_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    assert_response :ok
+  end
+
+  test "future with no user" do
+    get future_reservations_url
+    assert_response :unauthorized
+  end
 end

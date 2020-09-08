@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       post "create", to: "reservations#create"
       post "find_reservations", to: "reservations#find_reservations"
       delete "destroy/:id", to: "reservations#destroy"
+      get "today_reservations", to: "reservations#today"
+      get "past_reservations", to: "reservations#past"
+      get "future_reservations", to: "reservations#future"
     end
     resources :reservations
 
