@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validates :unit, presence: true, numericality: { only_integer: true }
   has_many :authentications, dependent: :destroy
   has_many :reservations, dependent: :destroy
+  has_many :elevator_bookings, dependent: :destroy
 
   def self.admin_by_token?(token)
     @authentication = Authentication.find_by(token: token)
