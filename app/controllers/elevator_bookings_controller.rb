@@ -6,6 +6,11 @@ class ElevatorBookingsController < ActionController::API
   # GET /elevator_bookings/1
   # GET /elevator_bookings/1.json
   def index
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
     @bookings = ElevatorBooking.all.order("created_at DESC")
     render json: @bookings, status: :ok
   end
@@ -13,6 +18,9 @@ class ElevatorBookingsController < ActionController::API
   # POST /elevator_bookings
   # POST /elevator_bookings.json
   def create
+    @user = User.user_by_token(request.cookies["token"])
+    render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
+
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
 
     if @elevator_booking.save
@@ -25,6 +33,9 @@ class ElevatorBookingsController < ActionController::API
   # DELETE /elevator_bookings/1
   # DELETE /elevator_bookings/1.json
   def destroy
+    @user = User.user_by_token(request.cookies["token"])
+    return if @user != @elevator_booking.user
+
     @elevator_booking.destroy
     head :no_content
   end
