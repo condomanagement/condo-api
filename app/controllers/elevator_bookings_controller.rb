@@ -11,7 +11,7 @@ class ElevatorBookingsController < ActionController::API
       return
     end
 
-    @bookings = ElevatorBooking.all.order("created_at DESC")
+    @bookings = prep_bookings
     render json: @bookings, status: :ok
   end
 
@@ -45,6 +45,24 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_elevator_booking
     @elevator_booking = ElevatorBooking.find(params[:id])
+  end
+
+  def prep_bookings
+    @elevator_bookings = ElevatorBooking.all.map do |b|
+      {
+        id: b.id,
+        endTime: b.end,
+        startTime: b.start,
+        unit: b.unit,
+        ownerType: b.ownerType,
+        name1: b.name1,
+        name2: b.name2,
+        phoneDay: b.phone_day,
+        phoneNight: b.phone_night,
+        deposit: b.deposit,
+        moveType: b.moveType
+      }
+    end
   end
 
   # Only allow a list of trusted parameters through.
