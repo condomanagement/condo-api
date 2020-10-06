@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_215058) do
+ActiveRecord::Schema.define(version: 2020_09_21_014511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,23 @@ ActiveRecord::Schema.define(version: 2020_08_31_215058) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "used", default: false
     t.index ["user_id"], name: "index_authentications_on_user_id"
+  end
+
+  create_table "elevator_bookings", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "start"
+    t.datetime "end"
+    t.integer "unit"
+    t.integer "ownerType"
+    t.string "name1"
+    t.string "name2"
+    t.string "phone_day"
+    t.string "phone_night"
+    t.integer "deposit"
+    t.integer "moveType"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_elevator_bookings_on_user_id"
   end
 
   create_table "parkings", force: :cascade do |t|
@@ -86,6 +103,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_215058) do
   end
 
   add_foreign_key "authentications", "users"
+  add_foreign_key "elevator_bookings", "users"
   add_foreign_key "reservations", "resources"
   add_foreign_key "reservations", "users"
   add_foreign_key "resource_questions", "questions"

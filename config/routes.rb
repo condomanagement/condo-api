@@ -31,6 +31,12 @@ Rails.application.routes.draw do
       post "remove", to: "resource_questions#remove"
     end
 
+    resources :elevator_bookings
+    scope :elevator_bookings do
+      post "create", to: "elevator_bookings#create"
+      post "remove", to: "elevator_bookings#remove"
+    end
+
     scope :parking do
       post "create", to: "parking#create"
       delete "destroy/:id", to: "parking#destroy"
