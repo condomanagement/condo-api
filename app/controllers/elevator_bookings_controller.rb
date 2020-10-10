@@ -22,7 +22,7 @@ class ElevatorBookingsController < ActionController::API
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
 
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
-    @elevator_booking.approved = 0
+    @elevator_booking.approved = false
 
     if @elevator_booking.save
       render json: @elevator_booking, status: :created
