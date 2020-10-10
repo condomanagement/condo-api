@@ -22,6 +22,7 @@ class ElevatorBookingsController < ActionController::API
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
 
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
+    @elevator_booking.approved = false
 
     if @elevator_booking.save
       render json: @elevator_booking, status: :created
@@ -50,17 +51,10 @@ private
   def prep_bookings
     @elevator_bookings = ElevatorBooking.all.map do |b|
       {
-        id: b.id,
-        endTime: b.end,
-        startTime: b.start,
-        unit: b.unit,
-        ownerType: b.ownerType,
-        name1: b.name1,
-        name2: b.name2,
-        phoneDay: b.phone_day,
-        phoneNight: b.phone_night,
-        deposit: b.deposit,
-        moveType: b.moveType
+        id: b.id, endTime: b.end, startTime: b.start, unit: b.unit,
+        ownerType: b.ownerType, name1: b.name1, name2: b.name2,
+        phoneDay: b.phone_day, phoneNight: b.phone_night, deposit: b.deposit,
+        moveType: b.moveType, approved: b.approved
       }
     end
   end
@@ -78,7 +72,8 @@ private
       :phone_day,
       :phone_night,
       :deposit,
-      :moveType
+      :moveType,
+      :approved
     )
   end
 end
