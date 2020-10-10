@@ -42,6 +42,8 @@ jobs:
             npm install
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
+      - run: sudo apt install -y postgresql-client || true
+
       - save_cache:
           key: gem-cache-{{ arch }}-{{ checksum "Gemfile.lock" }}
           paths:
@@ -51,7 +53,7 @@ jobs:
       # Database setup
       - run:
           name: Load DB
-          command: bundle exec rake db:schema:load
+          command: bundle exec rake db:structure:load
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
 

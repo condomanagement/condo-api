@@ -63,7 +63,8 @@ private
       name: user.name,
       parkingAdmin: user.parking_admin,
       phone: user.phone,
-      unit: user.unit
+      unit: user.unit,
+      type: user.resident_type
     }
   end
 end
