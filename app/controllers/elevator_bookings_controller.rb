@@ -23,6 +23,7 @@ class ElevatorBookingsController < ActionController::API
 
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
     @elevator_booking.approved = false
+    @elevator_booking.user = @user
 
     if @elevator_booking.save
       render json: @elevator_booking, status: :created
@@ -62,18 +63,9 @@ private
   # Only allow a list of trusted parameters through.
   def elevator_booking_params
     params.require(:elevator_booking).permit(
-      :user_id,
-      :start,
-      :end,
-      :unit,
-      :ownerType,
-      :name1,
-      :name2,
-      :phone_day,
-      :phone_night,
-      :deposit,
-      :moveType,
-      :approved
+      :user_id, :start, :end, :unit, :ownerType, :name1, :name2,
+      :phone_day, :phone_night, :deposit, :moveType, :approved,
+      :in, :out
     )
   end
 end
