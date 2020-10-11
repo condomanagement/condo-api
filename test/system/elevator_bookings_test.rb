@@ -21,7 +21,6 @@ class ElevatorBookingsTest < ApplicationSystemTestCase
     fill_in "Movetype", with: @elevator_booking.moveType
     fill_in "Name1", with: @elevator_booking.name1
     fill_in "Name2", with: @elevator_booking.name2
-    fill_in "Ownertype", with: @elevator_booking.ownerType
     fill_in "Phone day", with: @elevator_booking.phone_day
     fill_in "Phone night", with: @elevator_booking.phone_night
     fill_in "Start", with: @elevator_booking.start
@@ -42,7 +41,6 @@ class ElevatorBookingsTest < ApplicationSystemTestCase
     fill_in "Movetype", with: @elevator_booking.moveType
     fill_in "Name1", with: @elevator_booking.name1
     fill_in "Name2", with: @elevator_booking.name2
-    fill_in "Ownertype", with: @elevator_booking.ownerType
     fill_in "Phone day", with: @elevator_booking.phone_day
     fill_in "Phone night", with: @elevator_booking.phone_night
     fill_in "Start", with: @elevator_booking.start

@@ -80,7 +80,6 @@ CREATE TABLE public.elevator_bookings (
     start timestamp with time zone,
     "end" timestamp with time zone,
     unit integer,
-    "ownerType" integer,
     name1 character varying,
     name2 character varying,
     phone_day character varying,
@@ -597,6 +596,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201006013217'),
 ('20201006013855'),
 ('20201010160000'),
-('20201011002851');
+('20201011002851'),
+('20201011222424');
 
 

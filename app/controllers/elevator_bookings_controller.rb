@@ -84,7 +84,7 @@ private
   # Only allow a list of trusted parameters through.
   def elevator_booking_params
     params.require(:elevator_booking).permit(
-      :user_id, :start, :end, :unit, :ownerType, :name1, :name2,
+      :user_id, :start, :end, :unit, :name1, :name2,
       :phone_day, :phone_night, :deposit, :moveType, :approved,
       :in, :out
     )
