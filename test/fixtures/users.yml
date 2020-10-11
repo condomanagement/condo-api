@@ -49,3 +49,11 @@ parkingadmin:
   active: true
   admin: false
   parking_admin: true
+
+email:
+  name: MyString
+  unit: 200
+  email: test@example.com
+  phone: MyString
+  active: false
+  admin: false

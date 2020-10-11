@@ -26,6 +26,7 @@ class ElevatorBookingsController < ActionController::API
     @elevator_booking.user = @user
 
     if @elevator_booking.save
+      send_new_emails
       render json: @elevator_booking, status: :created
     else
       render json: @elevator_booking.errors, status: :unprocessable_entity
@@ -53,6 +54,7 @@ class ElevatorBookingsController < ActionController::API
     @elevator_booking.approved = true
 
     @elevator_booking.save
+    ElevatorMailer.approval(@elevator_booking).deliver_later
     render json: @elevator_booking, status: :ok
   end
 
@@ -61,6 +63,11 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_elevator_booking
     @elevator_booking = ElevatorBooking.find(params[:id])
+  end
+
+  def send_new_emails
+    ElevatorMailer.pending(@elevator_booking).deliver_later
+    ElevatorMailer.notification(@elevator_booking).deliver_later
   end
 
   def prep_bookings
