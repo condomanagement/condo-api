@@ -42,6 +42,20 @@ class ElevatorBookingsController < ActionController::API
     head :no_content
   end
 
+  # PATCH/PUT /elevator_bookings/approve/1
+  def approve
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @elevator_booking = ElevatorBooking.find(params[:id])
+    @elevator_booking.approved = true
+
+    @elevator_booking.save
+    render json: @elevator_booking, status: :ok
+  end
+
 private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -53,9 +67,9 @@ private
     @elevator_bookings = ElevatorBooking.all.map do |b|
       {
         id: b.id, endTime: b.end, startTime: b.start, unit: b.unit,
-        ownerType: b.ownerType, name1: b.name1, name2: b.name2,
+        name1: b.name1, name2: b.name2, user: b.user,
         phoneDay: b.phone_day, phoneNight: b.phone_night, deposit: b.deposit,
-        moveType: b.moveType, approved: b.approved
+        moveType: b.moveType, approved: b.approved, moveIn: b.in, moveOut: b.out
       }
     end
   end
