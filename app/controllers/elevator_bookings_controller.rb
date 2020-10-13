@@ -21,6 +21,11 @@ class ElevatorBookingsController < ActionController::API
     @user = User.user_by_token(request.cookies["token"])
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
 
+    unless elevator_booking_params[:in] == "true" || elevator_booking_params[:out] == "true"
+      render json: { error: "Please check at least one in/out option." }, status: :unauthorized
+      return false
+    end
+
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
     @elevator_booking.approved = false
     @elevator_booking.user = @user
