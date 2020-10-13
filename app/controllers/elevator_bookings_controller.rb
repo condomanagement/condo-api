@@ -20,11 +20,7 @@ class ElevatorBookingsController < ActionController::API
   def create
     @user = User.user_by_token(request.cookies["token"])
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
-
-    unless elevator_booking_params[:in] == "true" || elevator_booking_params[:out] == "true"
-      render json: { error: "Please check at least one in/out option." }, status: :unauthorized
-      return false
-    end
+    return unless valid_form?
 
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
     @elevator_booking.approved = false
@@ -36,6 +32,12 @@ class ElevatorBookingsController < ActionController::API
     else
       render json: @elevator_booking.errors, status: :unprocessable_entity
     end
+  end
+
+  def valid_form?
+    return if elevator_booking_params[:in] == "true" || elevator_booking_params[:out] == "true"
+
+    render json: { error: "Please check at least one in/out option." }, status: :unauthorized and return false
   end
 
   # DELETE /elevator_bookings/1
