@@ -14,31 +14,20 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Arrow Lofts Visitor Parking Registration</h1>
+    <h1>Your elevator booking request has been approved</h1>
     <p>
-      A visitor vehicle has registered to park at Arrow Lofts.
+      Your elevator booking request has been approved.
+
     </p>
     <table border=0>
       <tr>
-        <td>Street Address</td><td>112 Benton Street</td>
+        <td>Start</td><td>2017-04-30 20:00:00 -0400</td>
       </tr>
       <tr>
-        <td>Start Date</td><td>2017-05-01</td>
+        <td>End</td><td>2017-05-01 20:00:00 -0400</td>
       </tr>
       <tr>
-        <td>End Date</td><td>2017-05-02</td>
-      </tr>
-      <tr>
-        <td>Unit Number</td><td>1</td>
-      </tr>
-      <tr>
-        <td>Vehicle Make</td><td>FAST</td>
-      </tr>
-      <tr>
-        <td>Vehicle Colour</td><td>Green</td>
-      </tr>
-      <tr>
-        <td>License Plate</td><td>banana</td>
+        <td>Unit</td><td>1</td>
       </tr>
     </table>
     <p>All the best!</p>

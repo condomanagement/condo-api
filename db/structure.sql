@@ -77,10 +77,9 @@ ALTER SEQUENCE public.authentications_id_seq OWNED BY public.authentications.id;
 CREATE TABLE public.elevator_bookings (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    start timestamp without time zone,
-    "end" timestamp without time zone,
+    start timestamp with time zone,
+    "end" timestamp with time zone,
     unit integer,
-    "ownerType" integer,
     name1 character varying,
     name2 character varying,
     phone_day character varying,
@@ -89,7 +88,9 @@ CREATE TABLE public.elevator_bookings (
     "moveType" integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    approved boolean
+    approved boolean,
+    "in" boolean,
+    "out" boolean
 );
 
 
@@ -594,6 +595,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200921014511'),
 ('20201006013217'),
 ('20201006013855'),
-('20201010160000');
+('20201010160000'),
+('20201011002851'),
+('20201011222424');
 
 

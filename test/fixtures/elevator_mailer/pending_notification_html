@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New elevator booking request</h1>
+    <table border=0>
+      <tr>
+        <td>Start</td><td>2017-04-30 20:00:00 -0400</td>
+      </tr>
+      <tr>
+        <td>End</td><td>2017-05-01 20:00:00 -0400</td>
+      </tr>
+      <tr>
+        <td>Unit</td><td>1</td>
+      </tr>
+    </table>
+    <p>
+      <a href="https://www.arrowlofts.org/admin">Visit adminstration to approve request.</a>
+    </p>
+    <p>All the best!</p>
+    <p>Arrow Lofts Robot 💘🤖</p>
+  </body>
+</html>
+
+  </body>
+</html>
