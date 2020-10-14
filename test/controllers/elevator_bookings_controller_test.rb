@@ -128,7 +128,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           phone_night: @elevator_booking.phone_night,
           start: @elevator_booking.start,
           unit: @elevator_booking.unit,
-          user_id: @elevator_booking.user_id,
+          user_id: @elevator_booking.user_id
         }
       }, headers: {
         "HTTP_COOKIE" => "token=" + @token + ";"

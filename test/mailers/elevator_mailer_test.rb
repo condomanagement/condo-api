@@ -10,7 +10,8 @@ class ElevatorMailerTest < ActionMailer::TestCase
     unit: 1,
     start: "2017-05-01",
     end: "2017-05-02",
-    name1: "HELLO MAGGIE"
+    name1: "HELLO MAGGIE",
+    in: true
   )
 
   test "pending" do
