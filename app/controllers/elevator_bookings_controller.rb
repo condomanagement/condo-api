@@ -39,7 +39,7 @@ class ElevatorBookingsController < ActionController::API
     end
 
     unless elevator_booking_params[:in] == "true" || elevator_booking_params[:out] == "true"
-      render json: { error: "Please check at least one in/out option." }, status: :unauthorized
+      render json: { error: "Please check at least one in/out option" }, status: :unauthorized
       return false
     end
 

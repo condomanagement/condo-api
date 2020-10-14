@@ -11,6 +11,7 @@ one:
   phone_night: MyString
   deposit: 1
   moveType: 1
+  in: true
 
 two:
   user: two

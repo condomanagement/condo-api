@@ -34,13 +34,13 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           phone_night: @elevator_booking.phone_night,
           start: @elevator_booking.start,
           unit: @elevator_booking.unit,
-          user_id: @elevator_booking.user_id
+          user_id: @elevator_booking.user_id,
+          in: @elevator_booking.in
         }
       }, headers: {
         "HTTP_COOKIE" => "token=" + @token + ";"
       }
     end
-
     assert_response :created
   end
 
@@ -67,7 +67,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "should not create elevator_booking with incomplete data" do
+  test "should not create elevator_booking without unit number" do
     assert_difference("ElevatorBooking.count", 0) do
       post elevator_bookings_url, params: {
         elevator_booking: {
@@ -79,14 +79,64 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           phone_day: @elevator_booking.phone_day,
           phone_night: @elevator_booking.phone_night,
           start: @elevator_booking.start,
-          user_id: @elevator_booking.user_id
+          user_id: @elevator_booking.user_id,
+          in: @elevator_booking.in
         }
       }, headers: {
         "HTTP_COOKIE" => "token=" + @token + ";"
       }
     end
+    failure = { error: "Unit number is required" }
+    assert_equal failure.to_json, @response.body
+    assert_response :unauthorized
+  end
 
-    assert_response :unprocessable_entity
+  test "should not create elevator_booking without name" do
+    assert_difference("ElevatorBooking.count", 0) do
+      post elevator_bookings_url, params: {
+        elevator_booking: {
+          deposit: @elevator_booking.deposit,
+          end: @elevator_booking.end,
+          moveType: @elevator_booking.moveType,
+          name2: @elevator_booking.name2,
+          phone_day: @elevator_booking.phone_day,
+          phone_night: @elevator_booking.phone_night,
+          start: @elevator_booking.start,
+          unit: @elevator_booking.unit,
+          user_id: @elevator_booking.user_id,
+          in: @elevator_booking.in
+        }
+      }, headers: {
+        "HTTP_COOKIE" => "token=" + @token + ";"
+      }
+    end
+    failure = { error: "Name is required" }
+    assert_equal failure.to_json, @response.body
+    assert_response :unauthorized
+  end
+
+  test "should not create elevator_booking without checking in/out" do
+    assert_difference("ElevatorBooking.count", 0) do
+      post elevator_bookings_url, params: {
+        elevator_booking: {
+          deposit: @elevator_booking.deposit,
+          end: @elevator_booking.end,
+          moveType: @elevator_booking.moveType,
+          name1: @elevator_booking.name1,
+          name2: @elevator_booking.name2,
+          phone_day: @elevator_booking.phone_day,
+          phone_night: @elevator_booking.phone_night,
+          start: @elevator_booking.start,
+          unit: @elevator_booking.unit,
+          user_id: @elevator_booking.user_id,
+        }
+      }, headers: {
+        "HTTP_COOKIE" => "token=" + @token + ";"
+      }
+    end
+    failure = { error: "Please check at least one in/out option" }
+    assert_equal failure.to_json, @response.body
+    assert_response :unauthorized
   end
 
   test "should destroy elevator_booking" do
