@@ -26,29 +26,33 @@ class ElevatorBookingsController < ActionController::API
     @elevator_booking.approved = false
     @elevator_booking.user = @user
 
-    if @elevator_booking.save
-      send_new_emails
-      render json: @elevator_booking, status: :created
-    else
-      render json: @elevator_booking.errors.full_messages, status: :unprocessable_entity
-    end
+    save_elevator_booking
   end
 
   def valid_form?
-    unless elevator_booking_params.has_key?(:name1)
-      render json: { error: "Name is required" }, status: :unauthorized and return false 
-    end 
+    unless elevator_booking_params.key?(:name1)
+      render json: { error: "Name is required" }, status: :unauthorized and return false
+    end
 
-    unless elevator_booking_params.has_key?(:unit)
-      render json: { error: "Unit number is required" }, status: :unauthorized and return false 
+    unless elevator_booking_params.key?(:unit)
+      render json: { error: "Unit number is required" }, status: :unauthorized and return false
     end
 
     unless elevator_booking_params[:in] == "true" || elevator_booking_params[:out] == "true"
       render json: { error: "Please check at least one in/out option." }, status: :unauthorized
       return false
     end
-    
-    true 
+
+    true
+  end
+
+  def save_elevator_booking
+    if @elevator_booking.save
+      send_new_emails
+      render json: @elevator_booking, status: :created
+    else
+      render json: @elevator_booking.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   # DELETE /elevator_bookings/1
