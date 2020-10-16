@@ -14,10 +14,10 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Your elevator booking request has been recieved</h1>
+    <h1>Your elevator booking request has been received</h1>
     <p>
-      Your elevator booking request has been recieved. Note the elevator
-is not booked until you recieve a confirmation email.
+      Your elevator booking request has been received. Note the elevator
+is not booked until you receive a confirmation email.
 
     </p>
     <table border=0>
