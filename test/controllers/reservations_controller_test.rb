@@ -17,7 +17,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index if authorized" do
-    get reservations_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get reservations_url, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :ok
   end
 
@@ -33,7 +33,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
           },
           answers: ["[1, 1]"]
         }, headers: {
-          "HTTP_COOKIE" => "token=" + @token + ";"
+          "HTTP_COOKIE" => "token=#{@token};"
         }
     end
 
@@ -52,7 +52,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
           },
           answers: ["[1, 1]"]
         }, headers: {
-          "HTTP_COOKIE" => "token=" + @token + ";"
+          "HTTP_COOKIE" => "token=#{@token};"
         }
     end
 
@@ -67,7 +67,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
           user_id: @reservation.user_id
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     assert_response :ok
   end
@@ -82,14 +82,14 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy reservation" do
     assert_difference("Reservation.count", -1) do
-      delete reservation_url(@reservation), params: {}, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+      delete reservation_url(@reservation), params: {}, headers: { "HTTP_COOKIE" => "token=#{@user_token};" }
     end
 
     assert_response :no_content
   end
 
   test "should find my reservations" do
-    get mine_url, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    get mine_url, headers: { "HTTP_COOKIE" => "token=#{@user_token};" }
     assert_response :ok
   end
 
@@ -108,7 +108,7 @@ class ReservationsControllerTest < ActionDispatch::IntegrationTest
         action: "find_reservations",
         reservations: {}
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     assert_response :ok
   end

@@ -48,7 +48,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
       local_params = params[:parking].except(param)
       assert_no_enqueued_emails
       post parking_index_url, params: { parking: local_params }
-      failure = { error: vals[i] + " can't be blank" }
+      failure = { error: "#{vals[i]} can't be blank" }
       assert_response :unauthorized
       assert_equal failure.to_json, @response.body
       assert_no_enqueued_emails
@@ -132,12 +132,12 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "today" do
-    get today_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get today_url, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :ok
   end
 
   test "today as parking admin" do
-    get today_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    get today_url, headers: { "HTTP_COOKIE" => "token=#{@parking_token};" }
     assert_response :ok
   end
 
@@ -147,12 +147,12 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "future" do
-    get future_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get future_url, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :ok
   end
 
   test "future as parking admin" do
-    get future_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    get future_url, headers: { "HTTP_COOKIE" => "token=#{@parking_token};" }
     assert_response :ok
   end
 
@@ -162,17 +162,17 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "past" do
-    get past_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get past_url, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :ok
   end
 
   test "past as parking admin" do
-    get past_url, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    get past_url, headers: { "HTTP_COOKIE" => "token=#{@parking_token};" }
     assert_response :ok
   end
 
   test "past as regular user" do
-    get past_url, headers: { "HTTP_COOKIE" => "token=" + @regular_token + ";" }
+    get past_url, headers: { "HTTP_COOKIE" => "token=#{@regular_token};" }
     assert_response :unauthorized
   end
 end

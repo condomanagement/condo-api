@@ -21,7 +21,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get users_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get users_url, params: {}, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :success
   end
 
@@ -56,7 +56,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
             unit: @user.unit
           }
         }, headers: {
-          "HTTP_COOKIE" => "token=" + @user_token + ";"
+          "HTTP_COOKIE" => "token=#{@user_token};"
         }
     end
 
@@ -74,7 +74,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
             phone: @user.phone
           }
         }, headers: {
-          "HTTP_COOKIE" => "token=" + @token + ";"
+          "HTTP_COOKIE" => "token=#{@token};"
         }
     end
 
@@ -94,7 +94,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
             unit: @user.unit
           }
         }, headers: {
-          "HTTP_COOKIE" => "token=" + @token + ";"
+          "HTTP_COOKIE" => "token=#{@token};"
         }
     end
 
@@ -102,12 +102,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user" do
-    get user_url(@user), headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get user_url(@user), headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :success
   end
 
   test "should not show user if unauthorized" do
-    get user_url(@user), headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    get user_url(@user), headers: { "HTTP_COOKIE" => "token=#{@user_token};" }
     assert_response :unauthorized
   end
 
@@ -136,7 +136,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
           unit: "abc"
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     assert_response :unprocessable_entity
   end
@@ -153,7 +153,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
           unit: @user.unit
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     assert_response :success
   end
@@ -168,14 +168,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy user" do
     assert_difference("User.count", -1) do
-      delete user_url(@user), params: {}, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+      delete user_url(@user), params: {}, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     end
 
     assert_response :success
   end
 
   test "should not allow invalid token to update users" do
-    auth_token = ENV["ADMINISTRATIVE_TOKEN"] + "boo"
+    auth_token = "#{ENV["ADMINISTRATIVE_TOKEN"]}boo"
     post upload_url, params: { body: @users.to_json }, headers: { "X-Administrative-Token" => auth_token }
     assert_response :unprocessable_entity
     err = { error: "invalid_token" }
@@ -186,7 +186,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.id = nil
     @user2.id = nil
     @users = [@user, @user2]
-    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :success
   end
 
@@ -194,7 +194,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user.id = nil
     @user2.id = nil
     @users = [@user, @user2]
-    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    post upload_url, params: { body: @users.to_json }, headers: { "HTTP_COOKIE" => "token=#{@user_token};" }
     assert_response :unprocessable_entity
   end
 

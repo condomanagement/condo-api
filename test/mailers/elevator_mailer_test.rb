@@ -71,7 +71,8 @@ class ElevatorMailerTest < ActionMailer::TestCase
 
     assert_equal I18n.t("email.elevator.pending_notification_subject"), email.subject
     assert_equal read_fixture("pending_move_notification").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("pending_move_notification_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("pending_move_notification_html").join.strip,
+                 email.html_part.body.to_s.strip.gsub(/\r/, "")
   end
 
   test "approval" do

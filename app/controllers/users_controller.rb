@@ -87,9 +87,10 @@ class UsersController < ActionController::API
   end
 
   def new_user(person)
-    if person && person["unit"] && person["email"]
-      return false if User.find_by(unit: person["unit"], email: person["email"])
-    end
+    return false if person &&
+                    person["unit"] &&
+                    person["email"] &&
+                    User.find_by(unit: person["unit"], email: person["email"])
 
     true
   end

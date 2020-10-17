@@ -17,7 +17,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index if authorized" do
-    get elevator_bookings_url, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    get elevator_bookings_url, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :ok
   end
 
@@ -38,7 +38,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           in: @elevator_booking.in
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
     assert_response :created
@@ -60,7 +60,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           user_id: @elevator_booking.user_id
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + "aaaa;"
+        "HTTP_COOKIE" => "token=#{@token}aaaa;"
       }
     end
 
@@ -83,7 +83,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           in: @elevator_booking.in
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
     failure = { error: "Unit number is required" }
@@ -107,7 +107,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           in: @elevator_booking.in
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
     failure = { error: "Name is required" }
@@ -131,7 +131,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
           user_id: @elevator_booking.user_id
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
     failure = { error: "Please check at least one in/out option" }
@@ -142,7 +142,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy elevator_booking" do
     assert_difference("ElevatorBooking.count", -1) do
       delete elevator_booking_url(@elevator_booking), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @user_token + ";"
+        "HTTP_COOKIE" => "token=#{@user_token};"
       }
     end
 
@@ -152,7 +152,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
   test "should not destroy elevator_booking if unauthorized" do
     assert_difference("ElevatorBooking.count", 0) do
       delete elevator_booking_url(@elevator_booking), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @user_token + "aaaaa;"
+        "HTTP_COOKIE" => "token=#{@user_token}aaaaa;"
       }
     end
 
@@ -162,7 +162,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
   test "should not destroy elevator_booking if wrong user" do
     assert_difference("ElevatorBooking.count", 0) do
       delete elevator_booking_url(@elevator_booking), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 
@@ -175,7 +175,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
         approved: true
       }
     }, headers: {
-      "HTTP_COOKIE" => "token=" + @user_token + ";"
+      "HTTP_COOKIE" => "token=#{@user_token};"
     }
     assert_response :unauthorized
   end
@@ -186,7 +186,7 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
         approved: true
       }
     }, headers: {
-      "HTTP_COOKIE" => "token=" + @token + ";"
+      "HTTP_COOKIE" => "token=#{@token};"
     }
     assert_response :ok
   end

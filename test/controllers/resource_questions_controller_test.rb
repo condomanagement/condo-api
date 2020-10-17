@@ -30,7 +30,7 @@ class ResourceQuestionsControllerTest < ActionDispatch::IntegrationTest
           resource_id: @resource_question.resource_id
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 
@@ -48,7 +48,7 @@ class ResourceQuestionsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy resource_question if authorized" do
     assert_difference("ResourceQuestion.count", -1) do
       delete resource_question_url(@resource_question), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 
@@ -76,7 +76,7 @@ class ResourceQuestionsControllerTest < ActionDispatch::IntegrationTest
           resource_id: @resource_question.resource_id
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 

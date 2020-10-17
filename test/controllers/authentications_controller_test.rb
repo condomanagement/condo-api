@@ -16,17 +16,17 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "valid" do
-    post valid_url, params: { token: @token }, headers: { "HTTP_COOKIE" => "token=" + @token + ";" }
+    post valid_url, params: { token: @token }, headers: { "HTTP_COOKIE" => "token=#{@token};" }
     assert_response :success
   end
 
   test "valid user token" do
-    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @user_token + ";" }
+    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=#{@user_token};" }
     assert_response :success
   end
 
   test "valid parking admin token" do
-    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=" + @parking_token + ";" }
+    post valid_url, params: {}, headers: { "HTTP_COOKIE" => "token=#{@parking_token};" }
     assert_response :success
   end
 
@@ -36,7 +36,7 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "login with invalid email" do
-    post login_url, params: { "email": @user.email + "oaisrent" }
+    post login_url, params: { "email": "#{@user.email}oaisrent" }
     assert_response :ok
   end
 
@@ -46,7 +46,7 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "process login with invalid email key" do
-    post process_login_url, params: { "emailKey": @authentication.emailtoken + "ioarenstaoirsent" }
+    post process_login_url, params: { "emailKey": "#{@authentication.emailtoken}ioarenstaoirsent" }
     assert_response :ok
   end
 
@@ -56,7 +56,7 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "logout with invalid token" do
-    post logout_url, params: { "token": @authentication.token + "oairsentoaisrten" }
+    post logout_url, params: { "token": "#{@authentication.token}oairsentoaisrten" }
     assert_response :ok
   end
 end
