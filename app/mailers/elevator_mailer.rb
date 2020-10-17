@@ -8,7 +8,11 @@ class ElevatorMailer < ApplicationMailer
 
   def notification(elevator_booking)
     @elevator_booking = elevator_booking
-    mail(to: ENV["ELEVATOR_EMAIL"], subject: I18n.t("email.elevator.pending_notification_subject"))
+    mail(
+      to: ENV["ELEVATOR_EMAIL"],
+      reply_to: @elevator_booking.user.email,
+      subject: I18n.t("email.elevator.pending_notification_subject")
+    )
   end
 
   def approval(elevator_booking)

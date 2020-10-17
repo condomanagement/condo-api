@@ -18,7 +18,7 @@
     <table border=0>
       <tr>
         <td span=2>
-            Delivery
+            Move
         </td>
       </tr>
       <tr>
@@ -33,6 +33,15 @@
       <tr>
         <td>Email</td><td>test@example.com</td>
       </tr>
+        <tr>
+          <td>Deposit</td><td>$500</td>
+        </tr>
+        <tr>
+          <td>Fee</td><td>$300</td>
+        </tr>
+        <tr>
+          <td>Total</td><td>$800</td>
+        </tr>
     </table>
     <p>
       <a href="https://www.arrowlofts.org/admin">Visit adminstration to approve request.</a>

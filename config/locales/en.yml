@@ -109,5 +109,11 @@ en:
       start: "Start"
       end: "End"
       unit: "Unit"
+      move: "Move"
+      delivery: "Delivery"
+      deposit: "Deposit"
+      amount: "Fee"
+      total: "Total"
+      email: "Email"
   errors:
     too_long: "You cannot register a vehicle for this length of time."

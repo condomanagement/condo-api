@@ -77,8 +77,8 @@ ALTER SEQUENCE public.authentications_id_seq OWNED BY public.authentications.id;
 CREATE TABLE public.elevator_bookings (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    start timestamp with time zone,
-    "end" timestamp with time zone,
+    start timestamp without time zone,
+    "end" timestamp without time zone,
     unit integer,
     name1 character varying,
     name2 character varying,
@@ -193,8 +193,8 @@ CREATE TABLE public.reservations (
     resource_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    start_time timestamp with time zone,
-    end_time timestamp with time zone,
+    start_time timestamp without time zone,
+    end_time timestamp without time zone,
     time_limit integer DEFAULT 60
 );
 
@@ -466,6 +466,20 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: index_authentications_on_emailtoken; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_authentications_on_emailtoken ON public.authentications USING btree (emailtoken);
+
+
+--
+-- Name: index_authentications_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_authentications_on_token ON public.authentications USING btree (token);
+
+
+--
 -- Name: index_authentications_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -597,6 +611,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201006013855'),
 ('20201010160000'),
 ('20201011002851'),
-('20201011222424');
+('20201011222424'),
+('20201017124042');
 
 
