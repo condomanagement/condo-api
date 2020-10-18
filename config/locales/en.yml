@@ -98,16 +98,22 @@ en:
       introduction: |
         Please click the link below to login to your account.
     elevator:
-      pending_subject: "Your elevator booking request has been recieved"
+      pending_subject: "Your elevator booking request has been received"
       approved_subject: "Your elevator booking request has been approved"
       pending_notification_subject: "New elevator booking request"
       pending_introduction: |
-        Your elevator booking request has been recieved. Note the elevator
-        is not booked until you recieve a confirmation email.
+        Your elevator booking request has been received. Note the elevator
+        is not booked until you receive a confirmation email.
       approved_introduction: |
         Your elevator booking request has been approved.
       start: "Start"
       end: "End"
       unit: "Unit"
+      move: "Move"
+      delivery: "Delivery"
+      deposit: "Deposit"
+      amount: "Fee"
+      total: "Total"
+      email: "Email"
   errors:
     too_long: "You cannot register a vehicle for this length of time."

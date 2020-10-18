@@ -3,8 +3,8 @@
 module ActionMailerHelpers
   include ActiveJob::TestHelper
 
-  def must_enqueue_action_mailer_job(mailer_class, mailer_method, *args)
-    must_enqueue_jobs(1) { yield }
+  def must_enqueue_action_mailer_job(mailer_class, mailer_method, *args, &block)
+    must_enqueue_jobs(1, &block)
     action_mailer_job_must_be_enqueued(mailer_class, mailer_method, *args)
   end
 

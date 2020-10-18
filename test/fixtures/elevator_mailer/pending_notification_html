@@ -17,13 +17,21 @@
     <h1>New elevator booking request</h1>
     <table border=0>
       <tr>
-        <td>Start</td><td>2017-04-30 20:00:00 -0400</td>
+        <td span=2>
+            Delivery
+        </td>
       </tr>
       <tr>
-        <td>End</td><td>2017-05-01 20:00:00 -0400</td>
+        <td>Start</td><td>April 30, 2017  8:00 PM</td>
+      </tr>
+      <tr>
+        <td>End</td><td>May 1, 2017  8:00 PM</td>
       </tr>
       <tr>
         <td>Unit</td><td>1</td>
+      </tr>
+      <tr>
+        <td>Email</td><td>test@example.com</td>
       </tr>
     </table>
     <p>

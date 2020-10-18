@@ -14,12 +14,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Your elevator booking request has been approved</h1>
-    <p>
-      Your elevator booking request has been approved.
-
-    </p>
+    <h1>New elevator booking request</h1>
     <table border=0>
+      <tr>
+        <td span=2>
+            Move
+        </td>
+      </tr>
       <tr>
         <td>Start</td><td>April 30, 2017  8:00 PM</td>
       </tr>
@@ -29,7 +30,22 @@
       <tr>
         <td>Unit</td><td>1</td>
       </tr>
+      <tr>
+        <td>Email</td><td>test@example.com</td>
+      </tr>
+        <tr>
+          <td>Deposit</td><td>$500</td>
+        </tr>
+        <tr>
+          <td>Fee</td><td>$300</td>
+        </tr>
+        <tr>
+          <td>Total</td><td>$800</td>
+        </tr>
     </table>
+    <p>
+      <a href="https://www.arrowlofts.org/admin">Visit adminstration to approve request.</a>
+    </p>
     <p>All the best!</p>
     <p>Arrow Lofts Robot 💘🤖</p>
   </body>

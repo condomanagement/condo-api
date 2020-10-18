@@ -1,11 +1,14 @@
 New elevator booking request
 ========================================
 
-  Delivery
+  Move
 Start: April 30, 2017  8:00 PM
 End: May 1, 2017  8:00 PM
 Unit: 1
 Email: test@example.com
+  Deposit: $500
+  Fee: $300
+  Total: $800
 
 All the best!
 Arrow Lofts Robot 💘🤖

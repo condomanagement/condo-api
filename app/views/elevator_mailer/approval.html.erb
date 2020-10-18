@@ -10,10 +10,10 @@
     </p>
     <table border=0>
       <tr>
-        <td><%= I18n.t("email.elevator.start") %></td><td><%= @elevator_booking.start.in_time_zone("Eastern Time (US & Canada)") %></td>
+        <td><%= I18n.t("email.elevator.start") %></td><td><%= @elevator_booking.start.in_time_zone("Eastern Time (US & Canada)").strftime("%B %-d, %Y %l:%M %p")  %></td>
       </tr>
       <tr>
-        <td><%= I18n.t("email.elevator.end") %></td><td><%= @elevator_booking.end.in_time_zone("Eastern Time (US & Canada)") %></td>
+        <td><%= I18n.t("email.elevator.end") %></td><td><%= @elevator_booking.end.in_time_zone("Eastern Time (US & Canada)").strftime("%B %-d, %Y %l:%M %p")  %></td>
       </tr>
       <tr>
         <td><%= I18n.t("email.elevator.unit") %></td><td><%= @elevator_booking.unit %></td>

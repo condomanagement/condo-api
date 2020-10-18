@@ -27,7 +27,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
           name: @resource.name
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 
@@ -45,7 +45,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
             resource: { name: @resource.name }
           },
           headers: {
-            "HTTP_COOKIE" => "token=" + @token + ";"
+            "HTTP_COOKIE" => "token=#{@token};"
           }
     assert_response :ok
   end
@@ -61,7 +61,7 @@ class ResourcesControllerTest < ActionDispatch::IntegrationTest
   test "should destroy resource" do
     assert_difference("Resource.count", -1) do
       delete resource_url(@resource), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 

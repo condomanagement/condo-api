@@ -32,7 +32,7 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
           required_answer: @question.required_answer
         }
       }, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 
@@ -56,7 +56,7 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
         required_answer: @question.required_answer
       }
     }, headers: {
-      "HTTP_COOKIE" => "token=" + @token + ";"
+      "HTTP_COOKIE" => "token=#{@token};"
     }
     assert_response :ok
   end
@@ -72,7 +72,7 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   test "should destroy question" do
     assert_difference("Question.count", -1) do
       delete question_url(@question), params: {}, headers: {
-        "HTTP_COOKIE" => "token=" + @token + ";"
+        "HTTP_COOKIE" => "token=#{@token};"
       }
     end
 

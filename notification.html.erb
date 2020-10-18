@@ -24,9 +24,6 @@
       <tr>
         <td><%= I18n.t("email.elevator.unit") %></td><td><%= @elevator_booking.unit %></td>
       </tr>
-      <tr>
-        <td><%= I18n.t("email.elevator.email") %></td><td><%= @elevator_booking.user.email %></td>
-      </tr>
       <% if @elevator_booking.moveType == 2 %>
         <tr>
           <td><%= I18n.t("email.elevator.deposit") %></td><td>$500</td>
