@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Your elevator request has been rejected</h1>
+    <p>
+      Your elevator booking request has been rejected.
+
+    </p>
+    <p>
+      Nope
+    </p>
+    <table border=0>
+      <tr>
+        <td>Start</td><td>April 30, 2017  8:00 PM</td>
+      </tr>
+      <tr>
+        <td>End</td><td>May 1, 2017  8:00 PM</td>
+      </tr>
+      <tr>
+        <td>Unit</td><td>1</td>
+      </tr>
+    </table>
+    <p>All the best!</p>
+    <p>Arrow Lofts Robot 💘🤖</p>
+  </body>
+</html>
+
+  </body>
+</html>

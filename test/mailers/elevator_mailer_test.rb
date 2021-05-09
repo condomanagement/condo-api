@@ -87,4 +87,18 @@ class ElevatorMailerTest < ActionMailer::TestCase
     assert_equal read_fixture("approval").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
     assert_equal read_fixture("approval_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
   end
+
+  test "rejection" do
+    elevator_booking.user = @user
+    elevator_booking.rejection = "Nope"
+    email = ElevatorMailer.rejection(elevator_booking)
+
+    assert_emails 1 do
+      email.deliver_now
+    end
+
+    assert_equal I18n.t("email.elevator.rejected_subject"), email.subject
+    assert_equal read_fixture("reject").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("reject_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+  end
 end

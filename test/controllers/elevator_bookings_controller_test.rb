@@ -190,4 +190,27 @@ class ElevatorBookingsControllerTest < ActionDispatch::IntegrationTest
     }
     assert_response :ok
   end
+
+  test "should not reject booking if not admin" do
+    patch elevator_booking_reject_url(@elevator_booking), params: {
+      elevator_booking: {
+        status: false
+      }
+    }, headers: {
+      "HTTP_COOKIE" => "token=#{@user_token};"
+    }
+    assert_response :unauthorized
+  end
+
+  test "should reject booking if admin" do
+    patch elevator_booking_reject_url(@elevator_booking), params: {
+      elevator_booking: {
+        status: false,
+        rejection: "Nope"
+      }
+    }, headers: {
+      "HTTP_COOKIE" => "token=#{@token};"
+    }
+    assert_response :ok
+  end
 end

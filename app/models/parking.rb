@@ -20,11 +20,8 @@ class DateValidator < ActiveModel::Validator
   end
 
   def multiple_months(record)
-    if record.end_date.month - record.start_date.month > 1
-      too_long(record)
-    elsif current_month_too_long(record)
-      too_long(record)
-    elsif next_month_too_long(record)
+    if (record.end_date.month - record.start_date.month > 1) ||
+       current_month_too_long(record) || next_month_too_long(record)
       too_long(record)
     end
   end

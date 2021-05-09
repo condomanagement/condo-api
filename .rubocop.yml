@@ -55,6 +55,8 @@ Metrics/MethodLength:
   Max: 15
 Metrics/ModuleLength:
   Enabled: false
+Metrics/AbcSize:
+  Max: 18
 Style/ParallelAssignment:
   Enabled: false
 Style/ClassAndModuleChildren:
