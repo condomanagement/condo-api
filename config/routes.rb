@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       post "create", to: "elevator_bookings#create"
       post "remove", to: "elevator_bookings#remove"
       patch "approve/:id", to: "elevator_bookings#approve", as: "elevator_booking_approve"
+      patch "reject/:id", to: "elevator_bookings#reject", as: "elevator_booking_reject"
     end
 
     scope :parking do

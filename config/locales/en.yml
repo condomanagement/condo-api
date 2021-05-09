@@ -106,6 +106,9 @@ en:
         is not booked until you receive a confirmation email.
       approved_introduction: |
         Your elevator booking request has been approved.
+      rejected_subject: "Your elevator request has been rejected"
+      rejected_introduction: |
+        Your elevator booking request has been rejected.
       start: "Start"
       end: "End"
       unit: "Unit"

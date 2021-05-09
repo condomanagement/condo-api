@@ -37,6 +37,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt-get update
             sudo apt-get install cmake python-pip yamllint python3-pkg-resources
             gem install bundler
             npm install

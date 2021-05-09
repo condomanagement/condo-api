@@ -10,6 +10,17 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: approved_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.approved_type AS ENUM (
+    'false',
+    'true',
+    'pending'
+);
+
+
+--
 -- Name: user_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -90,7 +101,9 @@ CREATE TABLE public.elevator_bookings (
     updated_at timestamp(6) without time zone NOT NULL,
     approved boolean,
     "in" boolean,
-    "out" boolean
+    "out" boolean,
+    status public.approved_type DEFAULT 'pending'::public.approved_type,
+    rejection text
 );
 
 
@@ -193,9 +206,8 @@ CREATE TABLE public.reservations (
     resource_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    start_time timestamp without time zone,
-    end_time timestamp without time zone,
-    time_limit integer DEFAULT 60
+    start_time timestamp with time zone,
+    end_time timestamp with time zone
 );
 
 
@@ -583,35 +595,23 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200806002129'),
 ('20200806024017'),
 ('20200806025329'),
-('20200810005908'),
-('20200810012539'),
-('20200810012549'),
-('20200810012603'),
-('20200810021904'),
-('20200810021925'),
-('20200810021933'),
-('20200810022547'),
-('20200810022722'),
-('20200810022747'),
 ('20200810024028'),
 ('20200810024038'),
 ('20200810024051'),
 ('20200812005022'),
 ('20200812005049'),
-('20200815171136'),
 ('20200815171536'),
-('20200819003317'),
 ('20200819003319'),
-('20200821232121'),
 ('20200822002330'),
 ('20200831215058'),
-('20200921011017'),
 ('20200921014511'),
 ('20201006013217'),
 ('20201006013855'),
 ('20201010160000'),
 ('20201011002851'),
 ('20201011222424'),
-('20201017124042');
+('20201017124042'),
+('20210502160037'),
+('20210509153237');
 
 

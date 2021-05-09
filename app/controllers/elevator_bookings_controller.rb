@@ -24,6 +24,7 @@ class ElevatorBookingsController < ActionController::API
 
     @elevator_booking = ElevatorBooking.new(elevator_booking_params)
     @elevator_booking.approved = false
+    @elevator_booking.status = "pending"
     @elevator_booking.user = @user
 
     save_elevator_booking
@@ -73,10 +74,25 @@ class ElevatorBookingsController < ActionController::API
     end
 
     @elevator_booking = ElevatorBooking.find(params[:id])
-    @elevator_booking.approved = true
+    @elevator_booking.status = true
 
     @elevator_booking.save
     ElevatorMailer.approval(@elevator_booking).deliver_later
+    render json: @elevator_booking, status: :ok
+  end
+
+  def reject
+    unless User.admin_by_token?(request.cookies["token"])
+      render json: { error: "invalid_token" }, status: :unauthorized
+      return
+    end
+
+    @elevator_booking = ElevatorBooking.find(params[:id])
+    @elevator_booking.status = false
+    @elevator_booking.rejection = elevator_booking_params[:rejection]
+
+    @elevator_booking.save
+    ElevatorMailer.rejection(@elevator_booking).deliver_later
     render json: @elevator_booking, status: :ok
   end
 
@@ -98,7 +114,8 @@ private
         id: b.id, endTime: b.end, startTime: b.start, unit: b.unit,
         name1: b.name1, name2: b.name2, user: b.user,
         phoneDay: b.phone_day, phoneNight: b.phone_night, deposit: b.deposit,
-        moveType: b.moveType, approved: b.approved, moveIn: b.in, moveOut: b.out
+        moveType: b.moveType, status: b.status, moveIn: b.in, moveOut: b.out,
+        rejection: b.rejection
       }
     end
   end
@@ -108,7 +125,7 @@ private
     params.require(:elevator_booking).permit(
       :user_id, :start, :end, :unit, :name1, :name2,
       :phone_day, :phone_night, :deposit, :moveType, :approved,
-      :in, :out
+      :in, :out, :status, :rejection
     )
   end
 end

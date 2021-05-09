@@ -19,4 +19,9 @@ class ElevatorMailer < ApplicationMailer
     @elevator_booking = elevator_booking
     mail(to: @elevator_booking.user.email, subject: I18n.t("email.elevator.approved_subject"))
   end
+
+  def rejection(elevator_booking)
+    @elevator_booking = elevator_booking
+    mail(to: @elevator_booking.user.email, subject: I18n.t("email.elevator.rejected_subject"))
+  end
 end

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= I18n.t("email.elevator.rejected_subject") %></h1>
+    <p>
+      <%= I18n.t("email.elevator.rejected_introduction") %>
+    </p>
+    <p>
+      <%= @elevator_booking.rejection  %>
+    </p>
+    <table border=0>
+      <tr>
+        <td><%= I18n.t("email.elevator.start") %></td><td><%= @elevator_booking.start.in_time_zone("Eastern Time (US & Canada)").strftime("%B %-d, %Y %l:%M %p")  %></td>
+      </tr>
+      <tr>
+        <td><%= I18n.t("email.elevator.end") %></td><td><%= @elevator_booking.end.in_time_zone("Eastern Time (US & Canada)").strftime("%B %-d, %Y %l:%M %p")  %></td>
+      </tr>
+      <tr>
+        <td><%= I18n.t("email.elevator.unit") %></td><td><%= @elevator_booking.unit %></td>
+      </tr>
+    </table>
+    <p><%= I18n.t("email.salutation") %></p>
+    <p><%= I18n.t("email.signature") %></p>
+  </body>
+</html>

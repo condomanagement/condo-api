@@ -31,32 +31,32 @@ class AuthenticationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "login" do
-    post login_url, params: { "email": @user.email }
+    post login_url, params: { email: @user.email }
     assert_response :ok
   end
 
   test "login with invalid email" do
-    post login_url, params: { "email": "#{@user.email}oaisrent" }
+    post login_url, params: { email: "#{@user.email}oaisrent" }
     assert_response :ok
   end
 
   test "process login" do
-    post process_login_url, params: { "emailKey": @authentication.emailtoken }
+    post process_login_url, params: { emailKey: @authentication.emailtoken }
     assert_response :ok
   end
 
   test "process login with invalid email key" do
-    post process_login_url, params: { "emailKey": "#{@authentication.emailtoken}ioarenstaoirsent" }
+    post process_login_url, params: { emailKey: "#{@authentication.emailtoken}ioarenstaoirsent" }
     assert_response :ok
   end
 
   test "logout" do
-    post logout_url, params: { "token": @authentication.token }
+    post logout_url, params: { token: @authentication.token }
     assert_response :ok
   end
 
   test "logout with invalid token" do
-    post logout_url, params: { "token": "#{@authentication.token}oairsentoaisrten" }
+    post logout_url, params: { token: "#{@authentication.token}oairsentoaisrten" }
     assert_response :ok
   end
 end
