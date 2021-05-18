@@ -8,8 +8,14 @@ class ElevatorMailer < ApplicationMailer
 
   def notification(elevator_booking)
     @elevator_booking = elevator_booking
+    to = if @elevator_booking.moveType == 2
+      ENV["ELEVATOR_EMAIL_MOVE"]
+    else
+      ENV["ELEVATOR_EMAIL_DELIVERY"]
+    end
+
     mail(
-      to: ENV["ELEVATOR_EMAIL"],
+      to: to,
       reply_to: @elevator_booking.user.email,
       subject: I18n.t("email.elevator.pending_notification_subject")
     )
