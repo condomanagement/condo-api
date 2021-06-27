@@ -12,6 +12,7 @@ class ResourcesController < ActionController::API
         id: r.id,
         name: r.name,
         timeLimit: r.time_limit,
+        visible: r.visible,
         questions: r.questions
       }
     end
@@ -71,6 +72,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def resource_params
-    params.require(:resource).permit(:name, :time_limit)
+    params.require(:resource).permit(:name, :time_limit, :visible, :id)
   end
 end

@@ -271,7 +271,8 @@ CREATE TABLE public.resources (
     name character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    time_limit integer DEFAULT 60
+    time_limit integer DEFAULT 60,
+    visible boolean DEFAULT true
 );
 
 
@@ -612,6 +613,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201011222424'),
 ('20201017124042'),
 ('20210502160037'),
-('20210509153237');
+('20210509153237'),
+('20210627201859');
 
 
