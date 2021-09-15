@@ -319,7 +319,8 @@ CREATE TABLE public.users (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     parking_admin boolean,
-    resident_type public.user_type DEFAULT 'none'::public.user_type
+    resident_type public.user_type DEFAULT 'none'::public.user_type,
+    vaccinated boolean DEFAULT false
 );
 
 
@@ -614,6 +615,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201017124042'),
 ('20210502160037'),
 ('20210509153237'),
-('20210627201859');
+('20210627201859'),
+('20210915013828');
 
 

@@ -133,7 +133,8 @@ private
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:name, :unit, :email, :phone, :active, :admin, :parking_admin, :resident_type)
+    params.require(:user)
+          .permit(:name, :unit, :email, :phone, :active, :admin, :parking_admin, :resident_type, :vaccinated)
   end
 
   def format_user(user)
@@ -146,7 +147,8 @@ private
       parkingAdmin: user.parking_admin,
       phone: user.phone,
       unit: user.unit,
-      type: user.resident_type
+      type: user.resident_type,
+      vaccinated: user.vaccinated
     }
   end
 end
