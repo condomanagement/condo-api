@@ -272,7 +272,8 @@ CREATE TABLE public.resources (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     time_limit integer DEFAULT 60,
-    visible boolean DEFAULT true
+    visible boolean DEFAULT true,
+    vaccine boolean DEFAULT false
 );
 
 
@@ -616,6 +617,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210502160037'),
 ('20210509153237'),
 ('20210627201859'),
-('20210915013828');
+('20210915013828'),
+('20210915035502');
 
 
