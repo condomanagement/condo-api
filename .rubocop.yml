@@ -57,6 +57,8 @@ Metrics/ModuleLength:
   Enabled: false
 Metrics/AbcSize:
   Max: 18
+Metrics/CyclomaticComplexity:
+  Max: 8
 Style/ParallelAssignment:
   Enabled: false
 Style/ClassAndModuleChildren:

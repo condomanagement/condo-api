@@ -64,7 +64,8 @@ private
       parkingAdmin: user.parking_admin,
       phone: user.phone,
       unit: user.unit,
-      type: user.resident_type
+      type: user.resident_type,
+      vaccinated: user.vaccinated
     }
   end
 end
