@@ -26,6 +26,9 @@ class ReservationsController < ActionController::API
 
     render json: { error: "The time selected is not available." }, status: :unauthorized and return unless valid_time?
     render json: { error: "Reservation time too long." }, status: :unauthorized and return false unless valid_length?
+    unless valid_vaccine?
+      render json: { error: "You must be vaccinated to use this amenity." }, status: :unauthorized and return false
+    end
 
     save_reservation
   end
@@ -125,6 +128,16 @@ private
     start_time = Time.zone.parse(params[:reservation][:start_time])
     end_time = Time.zone.parse(params[:reservation][:end_time])
     query_valid_time(start_time, end_time)
+  end
+
+  def valid_vaccine?
+    vaccine_required = Resource.find(params[:reservation][:resource_id]).vaccine
+    return true unless vaccine_required
+
+    user_vaccinated = @user.vaccinated
+    return true if user_vaccinated
+
+    false
   end
 
   def query_valid_time(start_time, end_time)
