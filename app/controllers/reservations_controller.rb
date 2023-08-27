@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReservationsController < ActionController::API
-  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+  before_action :set_reservation, only: [:update, :destroy]
 
   # GET /reservations
   # GET /reservations.json
@@ -155,8 +155,8 @@ private
   end
 
   def time_diff
-    start_time = Time.parse(params[:reservation][:start_time])
-    end_time = Time.parse(params[:reservation][:end_time])
+    start_time = Time.zone.parse(params[:reservation][:start_time])
+    end_time = Time.zone.parse(params[:reservation][:end_time])
     (end_time - start_time) / 60
   end
 

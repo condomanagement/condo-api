@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ElevatorBookingsController < ActionController::API
-  before_action :set_elevator_booking, only: [:show, :edit, :update, :destroy]
+  before_action :set_elevator_booking, only: [:destroy]
 
   # GET /elevator_bookings/1
   # GET /elevator_bookings/1.json

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ResourcesController < ActionController::API
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_resource, only: [:update, :destroy]
 
   # GET /resources
   # GET /resources.json

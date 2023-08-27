@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ActionController::API
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
   def index

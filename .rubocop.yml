@@ -1,6 +1,6 @@
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.2
   Exclude:
     - "config/spring.rb"
     - "config/initializers/**/*"
@@ -17,6 +17,9 @@ AllCops:
     - "bin/spring"
     - "bin/rails"
     - "bin/**"
+require:
+  - rubocop-rails
+  - rubocop-capybara
 
 Style/Documentation:
   Enabled: false

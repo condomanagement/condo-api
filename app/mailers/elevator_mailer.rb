@@ -15,7 +15,7 @@ class ElevatorMailer < ApplicationMailer
     end
 
     mail(
-      to: to,
+      to:,
       reply_to: @elevator_booking.user.email,
       subject: I18n.t("email.elevator.pending_notification_subject")
     )
