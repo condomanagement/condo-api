@@ -11,11 +11,11 @@ class DateValidator < ActiveModel::Validator
   end
 
   def multiple_months?(record)
-    return true if record&.end_date&.month != record&.start_date&.month
+    true if record&.end_date&.month != record&.start_date&.month
   end
 
   def month(record)
-    record.errors[:base] << I18n.t("errors.too_long") if
+    record.errors.add :base, I18n.t("errors.too_long") if
       (record.end_date - record.start_date).to_i > ENV["NUMBER_OF_DAYS"].to_i
   end
 
@@ -40,7 +40,7 @@ class DateValidator < ActiveModel::Validator
   end
 
   def too_long(record)
-    record.errors[:base] << I18n.t("errors.too_long")
+    record.errors.add :base, I18n.t("errors.too_long")
   end
 end
 

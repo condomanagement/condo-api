@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   def self.user_by_token(token)
     @authentication = Authentication.find_by(token: token)
-    return false unless @authentication && @authentication&.user&.active
+    return false unless @authentication&.user&.active
 
     @authentication.user
   end

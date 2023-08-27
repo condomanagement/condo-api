@@ -175,7 +175,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not allow invalid token to update users" do
-    auth_token = "#{ENV["ADMINISTRATIVE_TOKEN"]}boo"
+    auth_token = "#{ENV.fetch("ADMINISTRATIVE_TOKEN", nil)}boo"
     post upload_url, params: { body: @users.to_json }, headers: { "X-Administrative-Token" => auth_token }
     assert_response :unprocessable_entity
     err = { error: "invalid_token" }
@@ -199,7 +199,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "valid token and data should update users" do
-    auth_token = ENV["ADMINISTRATIVE_TOKEN"]
+    auth_token = ENV.fetch("ADMINISTRATIVE_TOKEN", nil)
     @user.id = nil
     @user2.id = nil
     @users = [@user, @user2]
@@ -208,7 +208,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "invalid data should not post" do
-    auth_token = ENV["ADMINISTRATIVE_TOKEN"]
+    auth_token = ENV.fetch("ADMINISTRATIVE_TOKEN", nil)
     post upload_url, params: { body: "{{not_valid: json}" }, headers: { "X-Administrative-Token" => auth_token }
     assert_response :unprocessable_entity
     err = { error: "invalid_json" }
@@ -216,7 +216,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "missing data should not post" do
-    auth_token = ENV["ADMINISTRATIVE_TOKEN"]
+    auth_token = ENV.fetch("ADMINISTRATIVE_TOKEN", nil)
     @user.id = nil
     @user2.id = nil
     @users = [@user, @user2, @user3]
@@ -227,7 +227,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "no duplicates" do
-    auth_token = ENV["ADMINISTRATIVE_TOKEN"]
+    auth_token = ENV.fetch("ADMINISTRATIVE_TOKEN", nil)
     User.destroy_all
     @user.id = nil
     @user2.id = nil

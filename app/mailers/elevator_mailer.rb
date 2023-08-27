@@ -9,9 +9,9 @@ class ElevatorMailer < ApplicationMailer
   def notification(elevator_booking)
     @elevator_booking = elevator_booking
     to = if @elevator_booking.moveType == 2
-      ENV["ELEVATOR_EMAIL_MOVE"]
+      ENV.fetch("ELEVATOR_EMAIL_MOVE", nil)
     else
-      ENV["ELEVATOR_EMAIL_DELIVERY"]
+      ENV.fetch("ELEVATOR_EMAIL_DELIVERY", nil)
     end
 
     mail(
