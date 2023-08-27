@@ -5,7 +5,9 @@ RUN mkdir /myapp
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
+COPY package.json /myapp/package.json
 RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 RUN npm install
 COPY . /myapp
+
