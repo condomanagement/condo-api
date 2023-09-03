@@ -15,9 +15,9 @@ class ParkingTest < ActiveSupport::TestCase
       color: "green",
       license: "ABC 123",
       contact: "test@test.com",
-      created_at: Time.local(2020, 1, 1),
-      start_date: Time.local(2020, 1, 2),
-      end_date: Time.local(2020, 1, 3)
+      created_at: Time.zone.local(2020, 1, 1),
+      start_date: Time.zone.local(2020, 1, 2),
+      end_date: Time.zone.local(2020, 1, 3)
     )
 
     @parks = [first]

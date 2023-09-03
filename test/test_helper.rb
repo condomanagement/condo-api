@@ -13,11 +13,6 @@ end
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
 
-if ENV["CI"] == "true"
-  require "codecov"
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
-end
-
 # require_relative "../config/environment"
 require File.expand_path("../config/environment", __dir__)
 require "rails/test_help"

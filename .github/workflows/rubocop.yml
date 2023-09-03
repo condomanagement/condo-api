@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Ruby Tests
+name: Lint
 
 on:
   push:
@@ -18,25 +18,11 @@ permissions:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version: ['3.2.2']
 
-    services:
-      db:
-        image: postgres:14
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
@@ -47,19 +33,5 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Run tests
-      env:
-        RAILS_ENV: test
-        ELEVATOR_EMAIL_DELIVERY: ${{ vars.ELEVATOR_EMAIL_DELIVERY }}
-        ELEVATOR_EMAIL_MOVE: ${{ vars.ELEVATOR_EMAIL_MOVE }}
-        EMAIL: ${{ vars.EMAIL }}
-        GMAIL_ACCOUNT: ${{ vars.GMAIL_ACCOUNT }}
-        GMAIL_PASSWORD: ${{ vars.GMAIL_PASSWORD }}
-        NUMBER_OF_DAYS: ${{ vars.NUMBER_OF_DAYS }}
-        DOMAIN: ${{ vars.DOMAIN }}
-        ADMINISTRATIVE_TOKEN: ${{ vars.ADMINISTRATIVE_TOKEN }}
-        CONDO_API_DATABASE_PASSWORD: ${{ vars.CONDO_API_DATABASE_PASSWORD }}
-        CONDO_API_DATABASE_USERNAME: ${{ vars.CONDO_API_DATABASE_USERNAME }}
-      run: |
-        bin/rails db:create
-        bin/rails test
+    - name: Run lint
+      run: bundle exec rubocop

@@ -22,7 +22,7 @@ class AuthenticationMailerTest < ActionMailer::TestCase
       email.deliver_now
     end
     assert_equal I18n.t("email.authentication.subject"), email.subject
-    assert_equal read_fixture("confirmation").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("confirmation_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("confirmation").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
+    assert_equal read_fixture("confirmation_html").join.strip, email.html_part.body.to_s.strip.gsub("\r", "")
   end
 end

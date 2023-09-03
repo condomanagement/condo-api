@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ActionController::API
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:update, :destroy]
 
   # GET /questions
   # GET /questions.json

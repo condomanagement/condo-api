@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ResourceQuestionsController < ActionController::API
-  before_action :set_resource_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_resource_question, only: [:destroy]
 
   # POST /resource_questions
   # POST /resource_questions.json

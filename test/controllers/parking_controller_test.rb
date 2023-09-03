@@ -20,7 +20,7 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
         make: "FAST",
         color: "Green",
         license: "banana",
-        start_date: Date.today,
+        start_date: Time.zone.today,
         end_date: Date.tomorrow,
         contact: "test@example.com"
       }
@@ -33,8 +33,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
   test "create" do
     local_params = params[:parking]
     assert_no_enqueued_emails
-    local_params[:start_date] = Time.local(2020, 1, 2)
-    local_params[:end_date] = Time.local(2020, 1, 4)
+    local_params[:start_date] = Time.zone.local(2020, 1, 2)
+    local_params[:end_date] = Time.zone.local(2020, 1, 4)
     post parking_index_url, params: { parking: local_params }
     success = { success: true }
     assert_equal success.to_json, @response.body
@@ -68,8 +68,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "time too long same month" do
     local_params = params[:parking]
-    local_params[:start_date] = Time.local(2020, 1, 2)
-    local_params[:end_date] = Time.local(2020, 1, 12)
+    local_params[:start_date] = Time.zone.local(2020, 1, 2)
+    local_params[:end_date] = Time.zone.local(2020, 1, 12)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
     failure = { error: "You cannot register a vehicle for this length of time." }
@@ -80,8 +80,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "time too long multiple months first month" do
     local_params = params[:parking]
-    local_params[:start_date] = Time.local(2020, 1, 20)
-    local_params[:end_date] = Time.local(2020, 2, 2)
+    local_params[:start_date] = Time.zone.local(2020, 1, 20)
+    local_params[:end_date] = Time.zone.local(2020, 2, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
     failure = { error: "You cannot register a vehicle for this length of time." }
@@ -92,8 +92,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "time too long multiple months second month" do
     local_params = params[:parking]
-    local_params[:start_date] = Time.local(2020, 1, 30)
-    local_params[:end_date] = Time.local(2020, 2, 9)
+    local_params[:start_date] = Time.zone.local(2020, 1, 30)
+    local_params[:end_date] = Time.zone.local(2020, 2, 9)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
     failure = { error: "You cannot register a vehicle for this length of time." }
@@ -104,8 +104,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "time too long spans months" do
     local_params = params[:parking]
-    local_params[:start_date] = Time.local(2020, 1, 20)
-    local_params[:end_date] = Time.local(2020, 3, 2)
+    local_params[:start_date] = Time.zone.local(2020, 1, 20)
+    local_params[:end_date] = Time.zone.local(2020, 3, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
     failure = { error: "You cannot register a vehicle for this length of time." }
@@ -116,8 +116,8 @@ class ParkingControllerTest < ActionDispatch::IntegrationTest
 
   test "time fine spanning months" do
     local_params = params[:parking]
-    local_params[:start_date] = Time.local(2020, 1, 30)
-    local_params[:end_date] = Time.local(2020, 2, 2)
+    local_params[:start_date] = Time.zone.local(2020, 1, 30)
+    local_params[:end_date] = Time.zone.local(2020, 2, 2)
     assert_no_enqueued_emails
     post parking_index_url, params: { parking: local_params }
     failure = { success: true }

@@ -25,8 +25,8 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.pending_subject"), email.subject
-    assert_equal read_fixture("pending").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("pending_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("pending").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
+    assert_equal read_fixture("pending_html").join.strip, email.html_part.body.to_s.strip.gsub("\r", "")
   end
 
   test "pending move" do
@@ -40,8 +40,8 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.pending_subject"), email.subject
-    assert_equal read_fixture("pending_move").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("pending_move_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("pending_move").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
+    assert_equal read_fixture("pending_move_html").join.strip, email.html_part.body.to_s.strip.gsub("\r", "")
   end
 
   test "notification" do
@@ -54,9 +54,9 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.pending_notification_subject"), email.subject
-    assert_equal read_fixture("pending_notification").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("pending_notification").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
     assert_equal read_fixture("pending_notification_html").join.strip,
-                 email.html_part.body.to_s.strip.gsub(/\r/, "")
+                 email.html_part.body.to_s.strip.gsub("\r", "")
   end
 
   test "notification move" do
@@ -70,9 +70,9 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.pending_notification_subject"), email.subject
-    assert_equal read_fixture("pending_move_notification").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("pending_move_notification").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
     assert_equal read_fixture("pending_move_notification_html").join.strip,
-                 email.html_part.body.to_s.strip.gsub(/\r/, "")
+                 email.html_part.body.to_s.strip.gsub("\r", "")
   end
 
   test "approval" do
@@ -84,8 +84,8 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.approved_subject"), email.subject
-    assert_equal read_fixture("approval").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("approval_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("approval").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
+    assert_equal read_fixture("approval_html").join.strip, email.html_part.body.to_s.strip.gsub("\r", "")
   end
 
   test "rejection" do
@@ -98,7 +98,7 @@ class ElevatorMailerTest < ActionMailer::TestCase
     end
 
     assert_equal I18n.t("email.elevator.rejected_subject"), email.subject
-    assert_equal read_fixture("reject").join.strip, email.text_part.body.to_s.strip.gsub(/\r/, "")
-    assert_equal read_fixture("reject_html").join.strip, email.html_part.body.to_s.strip.gsub(/\r/, "")
+    assert_equal read_fixture("reject").join.strip, email.text_part.body.to_s.strip.gsub("\r", "")
+    assert_equal read_fixture("reject_html").join.strip, email.html_part.body.to_s.strip.gsub("\r", "")
   end
 end

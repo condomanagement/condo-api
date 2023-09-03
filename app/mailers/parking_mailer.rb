@@ -3,7 +3,7 @@
 class ParkingMailer < ApplicationMailer
   def registration(parking)
     @parking = parking
-    mail(to: ENV["EMAIL"], subject: I18n.t("email.subject"))
+    mail(to: ENV.fetch("EMAIL", nil), subject: I18n.t("email.subject"))
   end
 
   def confirmation(parking)

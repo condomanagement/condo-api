@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/ReversibleMigration
+# rubocop:disable Rails/BulkChangeTable
+
 class AddStartAndEndDateToParkings < ActiveRecord::Migration[5.1]
   def change
     add_column :parkings, :start_date, :date
@@ -7,3 +10,6 @@ class AddStartAndEndDateToParkings < ActiveRecord::Migration[5.1]
     remove_column :parkings, :nights
   end
 end
+
+# rubocop:enable Rails/ReversibleMigration
+# rubocop:enable Rails/BulkChangeTable

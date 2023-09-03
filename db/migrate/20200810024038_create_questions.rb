@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/ThreeStateBooleanColumn
+
 class CreateQuestions < ActiveRecord::Migration[6.0]
   def change
     create_table :questions do |t|
@@ -10,3 +12,5 @@ class CreateQuestions < ActiveRecord::Migration[6.0]
     end
   end
 end
+
+# rubocop:enable Rails/ThreeStateBooleanColumn

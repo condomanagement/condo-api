@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :elevator_bookings, dependent: :destroy
 
   def self.admin_by_token?(token)
-    @authentication = Authentication.find_by(token: token)
+    @authentication = Authentication.find_by(token:)
     return false unless @authentication
 
     return true if @authentication.user[:admin] && @authentication.user[:active]
@@ -17,7 +17,7 @@ class User < ApplicationRecord
   end
 
   def self.parking_admin_by_token?(token)
-    @authentication = Authentication.find_by(token: token)
+    @authentication = Authentication.find_by(token:)
     return false unless @authentication
 
     return true if @authentication.user[:parking_admin] && @authentication.user[:active]
@@ -26,8 +26,8 @@ class User < ApplicationRecord
   end
 
   def self.user_by_token(token)
-    @authentication = Authentication.find_by(token: token)
-    return false unless @authentication && @authentication&.user&.active
+    @authentication = Authentication.find_by(token:)
+    return false unless @authentication&.user&.active
 
     @authentication.user
   end

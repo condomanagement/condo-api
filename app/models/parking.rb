@@ -11,11 +11,11 @@ class DateValidator < ActiveModel::Validator
   end
 
   def multiple_months?(record)
-    return true if record&.end_date&.month != record&.start_date&.month
+    true if record&.end_date&.month != record&.start_date&.month
   end
 
   def month(record)
-    record.errors[:base] << I18n.t("errors.too_long") if
+    record.errors.add :base, I18n.t("errors.too_long") if
       (record.end_date - record.start_date).to_i > ENV["NUMBER_OF_DAYS"].to_i
   end
 
@@ -40,7 +40,7 @@ class DateValidator < ActiveModel::Validator
   end
 
   def too_long(record)
-    record.errors[:base] << I18n.t("errors.too_long")
+    record.errors.add :base, I18n.t("errors.too_long")
   end
 end
 
@@ -54,9 +54,9 @@ class Parking < ApplicationRecord
   validates :contact, presence: true
   validates_with DateValidator
 
-  scope :today, -> { where("start_date <= ? AND end_date >= ?", Date.today, Date.today) }
-  scope :future, -> { where("start_date > ?", Date.today) }
-  scope :past, -> { where("end_date <= ?", Date.today).order("start_date desc") }
+  scope :today, -> { where("start_date <= ? AND end_date >= ?", Time.zone.today, Time.zone.today) }
+  scope :future, -> { where("start_date > ?", Time.zone.today) }
+  scope :past, -> { where("end_date <= ?", Time.zone.today).order("start_date desc") }
 
   def self.to_csv
     attributes = ["id", "unit", "code", "make", "color", "license", "contact", "created_at", "start_date", "end_date"]
@@ -64,7 +64,7 @@ class Parking < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
-      all.each do |p|
+      all.find_each do |p|
         csv << attributes.map { |attr| p.send(attr) }
       end
     end

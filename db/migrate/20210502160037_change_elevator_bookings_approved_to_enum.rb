@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rails/SquishedSQLHeredocs
+
 class ChangeElevatorBookingsApprovedToEnum < ActiveRecord::Migration[6.0]
   def up
     execute <<-SQL
@@ -15,3 +17,5 @@ class ChangeElevatorBookingsApprovedToEnum < ActiveRecord::Migration[6.0]
     remove_column :type
   end
 end
+
+# rubocop:enable Rails/SquishedSQLHeredocs
