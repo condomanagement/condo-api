@@ -10,4 +10,4 @@ RUN bundle config build.nokogiri --use-system-libraries
 RUN bundle install
 RUN npm install
 COPY . /myapp
-
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
