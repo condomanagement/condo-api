@@ -84,6 +84,8 @@ test:
 #
 production:
   <<: *default
+  host: <%= ENV['CONDO_API_DATABASE_HOSTNAME'] %>
+  port: 5432
   database: condo_api_production
   username: condo_api
   password: <%= ENV['CONDO_API_DATABASE_PASSWORD'] %>
