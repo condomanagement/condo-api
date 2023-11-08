@@ -14,34 +14,34 @@ class AuthenticationsTest < ApplicationSystemTestCase
 
   test "creating a Authentication" do
     visit authentications_url
-    click_on "New Authentication"
+    click_button "New Authentication"
 
     fill_in "Emailtoken", with: @authentication.emailtoken
     fill_in "Token", with: @authentication.token
     fill_in "User", with: @authentication.user_id
-    click_on "Create Authentication"
+    click_button "Create Authentication"
 
     assert_text "Authentication was successfully created"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "updating a Authentication" do
     visit authentications_url
-    click_on "Edit", match: :first
+    click_button "Edit", match: :first
 
     fill_in "Emailtoken", with: @authentication.emailtoken
     fill_in "Token", with: @authentication.token
     fill_in "User", with: @authentication.user_id
-    click_on "Update Authentication"
+    click_button "Update Authentication"
 
     assert_text "Authentication was successfully updated"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "destroying a Authentication" do
     visit authentications_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_button "Destroy", match: :first
     end
 
     assert_text "Authentication was successfully destroyed"

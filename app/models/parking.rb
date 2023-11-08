@@ -64,7 +64,7 @@ class Parking < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
-      all.find_each do |p|
+      find_each do |p|
         csv << attributes.map { |attr| p.send(attr) }
       end
     end

@@ -14,7 +14,7 @@ class ElevatorBookingsTest < ApplicationSystemTestCase
 
   test "creating a Elevator booking" do
     visit elevator_bookings_url
-    click_on "New Elevator Booking"
+    click_button "New Elevator Booking"
 
     fill_in "Deposit", with: @elevator_booking.deposit
     fill_in "End", with: @elevator_booking.end
@@ -26,15 +26,15 @@ class ElevatorBookingsTest < ApplicationSystemTestCase
     fill_in "Start", with: @elevator_booking.start
     fill_in "Unit", with: @elevator_booking.unit
     fill_in "User", with: @elevator_booking.user_id
-    click_on "Create Elevator booking"
+    click_button "Create Elevator booking"
 
     assert_text "Elevator booking was successfully created"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "updating a Elevator booking" do
     visit elevator_bookings_url
-    click_on "Edit", match: :first
+    click_button "Edit", match: :first
 
     fill_in "Deposit", with: @elevator_booking.deposit
     fill_in "End", with: @elevator_booking.end
@@ -46,16 +46,16 @@ class ElevatorBookingsTest < ApplicationSystemTestCase
     fill_in "Start", with: @elevator_booking.start
     fill_in "Unit", with: @elevator_booking.unit
     fill_in "User", with: @elevator_booking.user_id
-    click_on "Update Elevator booking"
+    click_button "Update Elevator booking"
 
     assert_text "Elevator booking was successfully updated"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "destroying a Elevator booking" do
     visit elevator_bookings_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_button "Destroy", match: :first
     end
 
     assert_text "Elevator booking was successfully destroyed"

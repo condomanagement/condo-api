@@ -6,7 +6,7 @@ class QuestionsController < ActionController::API
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all.order("question ASC")
+    @questions = Question.order("question ASC")
     questions = @questions.map do |q|
       {
         id: q.id,
