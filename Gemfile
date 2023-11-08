@@ -65,3 +65,5 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "rubocop-rails", "~> 2.20"
 
 gem "rubocop-capybara", "~> 2.18"
+
+gem "mutex_m", "~> 0.2.0"

@@ -61,5 +61,7 @@ jobs:
         CONDO_API_DATABASE_PASSWORD: ${{ vars.CONDO_API_DATABASE_PASSWORD }}
         CONDO_API_DATABASE_USERNAME: ${{ vars.CONDO_API_DATABASE_USERNAME }}
       run: |
-        bin/rails db:create
-        bin/rails test
+        gem update --system
+        bundle install
+        bundle exec rake db:create
+        bundle exec rake test
