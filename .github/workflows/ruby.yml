@@ -26,7 +26,7 @@ jobs:
 
     services:
       db:
-        image: postgres:14
+        image: postgres:16
         ports:
           - 5432:5432
         env:
@@ -46,7 +46,7 @@ jobs:
       uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        bundler-cache: false # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
       env:
         RAILS_ENV: test
@@ -61,5 +61,6 @@ jobs:
         CONDO_API_DATABASE_PASSWORD: ${{ vars.CONDO_API_DATABASE_PASSWORD }}
         CONDO_API_DATABASE_USERNAME: ${{ vars.CONDO_API_DATABASE_USERNAME }}
       run: |
-        bin/rails db:create
-        bin/rails test
+        bundle install
+        bundle exec rake db:create
+        bundle exec rake test

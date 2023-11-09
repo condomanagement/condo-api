@@ -14,32 +14,32 @@ class QuestionsTest < ApplicationSystemTestCase
 
   test "creating a Question" do
     visit questions_url
-    click_on "New Question"
+    click_button "New Question"
 
     fill_in "Question", with: @question.question
     check "Required answer" if @question.required_answer
-    click_on "Create Question"
+    click_button "Create Question"
 
     assert_text "Question was successfully created"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "updating a Question" do
     visit questions_url
-    click_on "Edit", match: :first
+    click_button "Edit", match: :first
 
     fill_in "Question", with: @question.question
     check "Required answer" if @question.required_answer
-    click_on "Update Question"
+    click_button "Update Question"
 
     assert_text "Question was successfully updated"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "destroying a Question" do
     visit questions_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_button "Destroy", match: :first
     end
 
     assert_text "Question was successfully destroyed"

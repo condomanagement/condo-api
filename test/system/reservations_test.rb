@@ -14,32 +14,32 @@ class ReservationsTest < ApplicationSystemTestCase
 
   test "creating a Reservation" do
     visit reservations_url
-    click_on "New Reservation"
+    click_button "New Reservation"
 
     fill_in "Resource", with: @reservation.resource_id
     fill_in "User", with: @reservation.user_id
-    click_on "Create Reservation"
+    click_button "Create Reservation"
 
     assert_text "Reservation was successfully created"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "updating a Reservation" do
     visit reservations_url
-    click_on "Edit", match: :first
+    click_button "Edit", match: :first
 
     fill_in "Resource", with: @reservation.resource_id
     fill_in "User", with: @reservation.user_id
-    click_on "Update Reservation"
+    click_button "Update Reservation"
 
     assert_text "Reservation was successfully updated"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "destroying a Reservation" do
     visit reservations_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_button "Destroy", match: :first
     end
 
     assert_text "Reservation was successfully destroyed"

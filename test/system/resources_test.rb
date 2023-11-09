@@ -14,30 +14,30 @@ class ResourcesTest < ApplicationSystemTestCase
 
   test "creating a Resource" do
     visit resources_url
-    click_on "New Resource"
+    click_button "New Resource"
 
     fill_in "Name", with: @resource.name
-    click_on "Create Resource"
+    click_button "Create Resource"
 
     assert_text "Resource was successfully created"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "updating a Resource" do
     visit resources_url
-    click_on "Edit", match: :first
+    click_button "Edit", match: :first
 
     fill_in "Name", with: @resource.name
-    click_on "Update Resource"
+    click_button "Update Resource"
 
     assert_text "Resource was successfully updated"
-    click_on "Back"
+    click_button "Back"
   end
 
   test "destroying a Resource" do
     visit resources_url
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      click_button "Destroy", match: :first
     end
 
     assert_text "Resource was successfully destroyed"
