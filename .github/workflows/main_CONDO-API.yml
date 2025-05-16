@@ -14,20 +14,20 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
     - name: Log in to registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: https://ghcr.io/
         username: ${{ secrets.AzureAppService_ContainerUsername_fe6d86a0564c405985e55b5a8220111c }}
         password: ${{ secrets.AzureAppService_ContainerPassword_9610469c90194dca9558d223a805c6a2 }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v6
       with:
         push: true
         tags: ghcr.io/${{ secrets.AzureAppService_ContainerUsername_fe6d86a0564c405985e55b5a8220111c }}/condomanagement/condo-api:${{ github.sha }}
