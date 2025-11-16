@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2021_09_15_035502) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_16_121133) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -115,10 +115,26 @@ ActiveRecord::Schema[8.1].define(version: 2021_09_15_035502) do
     t.boolean "vaccinated", default: false
   end
 
+  create_table "webauthn_credentials", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "credential_type", default: "passkey"
+    t.string "external_id", null: false
+    t.datetime "last_used_at"
+    t.string "nickname"
+    t.text "public_key", null: false
+    t.bigint "sign_count", default: 0, null: false
+    t.text "transports"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["external_id"], name: "index_webauthn_credentials_on_external_id", unique: true
+    t.index ["user_id"], name: "index_webauthn_credentials_on_user_id"
+  end
+
   add_foreign_key "authentications", "users"
   add_foreign_key "elevator_bookings", "users"
   add_foreign_key "reservations", "resources"
   add_foreign_key "reservations", "users"
   add_foreign_key "resource_questions", "questions"
   add_foreign_key "resource_questions", "resources"
+  add_foreign_key "webauthn_credentials", "users"
 end

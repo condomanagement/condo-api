@@ -62,5 +62,17 @@ Rails.application.routes.draw do
       post "valid", to: "authentications#valid"
       post "logout", to: "authentications#logout"
     end
+
+    # WebAuthn/Passkey routes
+    scope :webauthn do
+      get "registration_options", to: "webauthn_credentials#registration_options", as: "webauthn_registration_options"
+      post "register", to: "webauthn_credentials#register", as: "webauthn_register"
+      get "authentication_options", to: "webauthn_credentials#authentication_options",
+                                    as: "webauthn_authentication_options"
+      post "authenticate", to: "webauthn_credentials#authenticate", as: "webauthn_authenticate"
+      get "credentials", to: "webauthn_credentials#index", as: "webauthn_credentials"
+      delete "credentials/:id", to: "webauthn_credentials#destroy", as: "webauthn_credential"
+      get "check_availability", to: "webauthn_credentials#check_availability", as: "webauthn_check_availability"
+    end
   end
 end

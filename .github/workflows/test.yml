@@ -1,0 +1,53 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: condo_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/condo_test
+      DOMAIN: https://localhost:3001
+      NUMBER_OF_DAYS: "4"
+      EMAIL: test@example.com
+      ELEVATOR_EMAIL_DELIVERY: delivery@example.com
+      ELEVATOR_EMAIL_MOVE: move@example.com
+      ADMINISTRATIVE_TOKEN: test_admin_token_12345
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.4.7'
+        bundler-cache: true
+    
+    - name: Setup test database
+      run: |
+        bundle exec rails db:create
+        bundle exec rails db:schema:load
+    
+    - name: Run tests
+      run: bundle exec rails test

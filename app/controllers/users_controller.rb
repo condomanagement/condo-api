@@ -68,15 +68,13 @@ class UsersController < ActionController::API
 
   # POST /upload
   def upload
-    if valid_token?
-      begin
-        @result = users_object
-        create_users_from_upload
-      rescue JSON::ParserError
-        render json: { error: "invalid_json" }, status: :unprocessable_content
-      end
-    else
-      render json: { error: "invalid_token" }, status: :unprocessable_content
+    return unless authorized_for_upload?
+
+    begin
+      @result = users_object
+      create_users_from_upload
+    rescue JSON::ParserError
+      render json: { error: "invalid_json" }, status: :unprocessable_content
     end
   end
 
@@ -124,13 +122,39 @@ private
     false
   end
 
+  def authorized_for_upload?
+    return authorized_token? if request.headers["X-Administrative-Token"].present?
+
+    authorized_admin?
+  end
+
+  def authorized_token?
+    if request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
+      true
+    else
+      render json: { error: "invalid_token" }, status: :unprocessable_content
+      false
+    end
+  end
+
+  def authorized_admin?
+    if admin?
+      true
+    else
+      render json: { error: "unauthorized" }, status: :unprocessable_content
+      false
+    end
+  end
+
   def admin?
     return false unless request.cookies["token"]
 
     @authentication = Authentication.find_by(token: request.cookies["token"])
-    return true if @authentication.user.admin && @authentication&.user&.active
+    return false unless @authentication&.user
+    return false unless @authentication.user.admin == true
+    return false unless @authentication.user.active == true
 
-    false
+    true
   end
 
   # Only allow a list of trusted parameters through.
