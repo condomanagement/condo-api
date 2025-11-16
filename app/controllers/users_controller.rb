@@ -76,7 +76,7 @@ class UsersController < ActionController::API
         render json: { error: "invalid_json" }, status: :unprocessable_content
       end
     else
-      render json: { error: "invalid_token" }, status: :unprocessable_entity
+      render json: { error: "invalid_token" }, status: :unprocessable_content
     end
   end
 
