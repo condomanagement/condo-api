@@ -7,14 +7,14 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: cimg/ruby:3.4.7-node
         environment:
           - PG_HOST=localhost
           - PG_USER=ubuntu
           - RAILS_ENV=test
           - RACK_ENV=test
           - CI=true
-      - image: circleci/postgres:12.3
+      - image: cimg/postgres:16.4
         environment:
           - POSTGRES_USER=ubuntu
           - POSTGRES_DB=db_name
@@ -31,14 +31,14 @@ jobs:
           keys:
           - gem-cache-{{ arch }}-{{ checksum "Gemfile.lock" }}
           # - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
+          # fallback to using the latest cache is found
           # - v1-dependencies-
 
       - run:
           name: Install dependencies
           command: |
             sudo apt-get update --allow-releaseinfo-change
-            sudo apt-get install cmake python-pip yamllint python3-pkg-resources
+            sudo apt-get install cmake yamllint
             gem install bundler
             npm install
             bundle install --jobs=4 --retry=3 --path vendor/bundle
@@ -54,7 +54,7 @@ jobs:
       # Database setup
       - run:
           name: Load DB
-          command: bundle exec rake db:structure:load
+          command: bundle exec rake db:create db:migrate
           environment:
             DATABASE_URL: "postgres://ubuntu@localhost:5432/db_name"
 
