@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ElevatorBookingsController < ActionController::API
+  include Pagy::Backend
+
   before_action :set_elevator_booking, only: [:destroy]
 
   # GET /elevator_bookings/1
@@ -11,8 +13,11 @@ class ElevatorBookingsController < ActionController::API
       return
     end
 
-    @bookings = prep_bookings
-    render json: @bookings, status: :ok
+    if paginated?
+      render_paginated_bookings
+    else
+      render_all_bookings
+    end
   end
 
   # POST /elevator_bookings
@@ -127,5 +132,33 @@ private
                          :phone_day, :phone_night, :deposit, :moveType, :approved,
                          :in, :out, :status, :rejection]
     )
+  end
+
+  def paginated?
+    params[:page] || params[:items]
+  end
+
+  def format_booking(booking)
+    {
+      id: booking.id, endTime: booking.end, startTime: booking.start, unit: booking.unit,
+      name1: booking.name1, name2: booking.name2, user: booking.user,
+      phoneDay: booking.phone_day, phoneNight: booking.phone_night, deposit: booking.deposit,
+      moveType: booking.moveType, status: booking.status, moveIn: booking.in, moveOut: booking.out,
+      rejection: booking.rejection
+    }
+  end
+
+  def render_paginated_bookings
+    page = params[:page] || 1
+    items = params[:items] || 25
+    pagy, bookings = pagy(ElevatorBooking.order(start: :desc), page: page, items: items)
+
+    @bookings = bookings.map { |b| format_booking(b) }
+    render json: { elevator_bookings: @bookings, pagy: pagy_metadata(pagy) }, status: :ok
+  end
+
+  def render_all_bookings
+    @bookings = ElevatorBooking.all.map { |b| format_booking(b) }
+    render json: @bookings, status: :ok
   end
 end
