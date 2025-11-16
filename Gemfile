@@ -28,8 +28,8 @@ gem "jbuilder", "~> 2.13"
 # gem 'image_processing', '~> 1.2'
 gem "csv", "~> 3.3"
 gem "dotenv-rails"
-gem "webauthn", "~> 3.1"
 gem "email_validator"
+gem "webauthn", "~> 3.1"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false

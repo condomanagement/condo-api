@@ -7,6 +7,7 @@ class WebauthnCredentialsController < ActionController::API
 
   # GET /webauthn/registration_options
   # Generate options for registering a new passkey
+  # rubocop:disable Metrics/MethodLength
   def registration_options
     return render json: { error: "User not found" }, status: :not_found unless @user
 
@@ -30,16 +31,18 @@ class WebauthnCredentialsController < ActionController::API
 
     render json: options
   end
+  # rubocop:enable Metrics/MethodLength
 
   # POST /webauthn/register
   # Complete passkey registration
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def register
     user = User.user_by_token(params[:token])
     return render json: { error: "Unauthorized" }, status: :unauthorized unless user
 
     begin
       webauthn_credential = WebAuthn::Credential.from_create(params[:credential])
-      
+
       # Verify the credential
       webauthn_credential.verify(session[:webauthn_registration_challenge])
 
@@ -55,8 +58,8 @@ class WebauthnCredentialsController < ActionController::API
       # Clear the challenge
       session.delete(:webauthn_registration_challenge)
 
-      render json: { 
-        success: true, 
+      render json: {
+        success: true,
         credential: {
           id: credential.id,
           nickname: credential.nickname,
@@ -64,22 +67,22 @@ class WebauthnCredentialsController < ActionController::API
         }
       }
     rescue WebAuthn::Error => e
-      render json: { error: "Registration failed: #{e.message}" }, status: :unprocessable_entity
+      render json: { error: "Registration failed: #{e.message}" }, status: :unprocessable_content
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   # GET /webauthn/authentication_options
   # Generate options for passkey authentication
   def authentication_options
     return render json: { error: "User not found" }, status: :not_found unless @user
-    return render json: { error: "No passkeys registered", passkeys_available: false }, status: :not_found unless @user.passkeys_enabled?
 
-    options = WebAuthn::Credential.options_for_get(
-      allow: @user.webauthn_credentials.pluck(:external_id),
-      user_verification: "preferred"
-    )
+    unless @user.passkeys_enabled?
+      return render json: { error: "No passkeys registered", passkeys_available: false },
+                    status: :not_found
+    end
 
-    # Store challenge in session
+    options = build_authentication_options
     session[:webauthn_authentication_challenge] = options.challenge
 
     render json: options.merge(passkeys_available: true)
@@ -88,41 +91,21 @@ class WebauthnCredentialsController < ActionController::API
   # POST /webauthn/authenticate
   # Complete passkey authentication
   def authenticate
-    begin
-      webauthn_credential = WebAuthn::Credential.from_get(params[:credential])
-      
-      # Find the credential
-      stored_credential = WebauthnCredential.find_by(external_id: webauthn_credential.id)
-      return render json: { error: "Credential not found" }, status: :not_found unless stored_credential
+    webauthn_credential = WebAuthn::Credential.from_get(params[:credential])
+    stored_credential = find_and_verify_credential(webauthn_credential)
 
-      # Verify the credential
-      webauthn_credential.verify(
-        session[:webauthn_authentication_challenge],
-        public_key: stored_credential.public_key,
-        sign_count: stored_credential.sign_count
-      )
+    return render json: { error: "Credential not found" }, status: :not_found unless stored_credential
 
-      # Update sign count and last used
-      stored_credential.update_usage!(webauthn_credential.sign_count)
+    authentication = create_authentication_token(stored_credential)
+    session.delete(:webauthn_authentication_challenge)
 
-      # Create authentication token
-      authentication = Authentication.create!(
-        token: SecureRandom.uuid,
-        emailtoken: SecureRandom.uuid,
-        user: stored_credential.user
-      )
-
-      # Clear the challenge
-      session.delete(:webauthn_authentication_challenge)
-
-      render json: { 
-        success: true, 
-        token: authentication.token,
-        user: format_user(stored_credential.user)
-      }
-    rescue WebAuthn::Error => e
-      render json: { error: "Authentication failed: #{e.message}" }, status: :unauthorized
-    end
+    render json: {
+      success: true,
+      token: authentication.token,
+      user: format_user(stored_credential.user)
+    }
+  rescue WebAuthn::Error => e
+    render json: { error: "Authentication failed: #{e.message}" }, status: :unauthorized
   end
 
   # GET /webauthn/credentials
@@ -159,13 +142,13 @@ class WebauthnCredentialsController < ActionController::API
     user = User.find_by("LOWER(email) = ?", params[:email].downcase)
     return render json: { passkeys_available: false } unless user
 
-    render json: { 
+    render json: {
       passkeys_available: user.passkeys_enabled?,
       passkey_count: user.webauthn_credentials.count
     }
   end
 
-  private
+private
 
   def authenticate_user!
     user = User.user_by_token(params[:token])
@@ -179,7 +162,7 @@ class WebauthnCredentialsController < ActionController::API
   def set_credential
     user = User.user_by_token(params[:token])
     return render json: { error: "Unauthorized" }, status: :unauthorized unless user
-    
+
     @credential = user.webauthn_credentials.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Credential not found" }, status: :not_found
