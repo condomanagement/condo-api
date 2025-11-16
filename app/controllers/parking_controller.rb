@@ -60,7 +60,7 @@ class ParkingController < ActionController::API
 private
 
   def parking_params
-    params.require(:parking).permit(:code, :unit, :make, :color, :license, :start_date, :end_date, :contact)
+    params.expect(parking: [:code, :unit, :make, :color, :license, :start_date, :end_date, :contact])
   end
 
   def prep_parking(parking)

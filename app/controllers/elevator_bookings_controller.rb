@@ -52,7 +52,7 @@ class ElevatorBookingsController < ActionController::API
       send_new_emails
       render json: @elevator_booking, status: :created
     else
-      render json: @elevator_booking.errors.full_messages, status: :unprocessable_entity
+      render json: @elevator_booking.errors.full_messages, status: :unprocessable_content
     end
   end
 
@@ -122,10 +122,10 @@ private
 
   # Only allow a list of trusted parameters through.
   def elevator_booking_params
-    params.require(:elevator_booking).permit(
-      :user_id, :start, :end, :unit, :name1, :name2,
-      :phone_day, :phone_night, :deposit, :moveType, :approved,
-      :in, :out, :status, :rejection
+    params.expect(
+      elevator_booking: [:user_id, :start, :end, :unit, :name1, :name2,
+                         :phone_day, :phone_night, :deposit, :moveType, :approved,
+                         :in, :out, :status, :rejection]
     )
   end
 end

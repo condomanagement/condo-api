@@ -26,6 +26,7 @@ class DateValidator < ActiveModel::Validator
     end
   end
 
+  # rubocop:disable Naming/PredicateMethod
   def current_month_too_long(record)
     return true if Time.days_in_month(record.start_date.month, record.start_date.year) - record.start_date.day >
                    ENV["NUMBER_OF_DAYS"].to_i
@@ -38,6 +39,7 @@ class DateValidator < ActiveModel::Validator
 
     false
   end
+  # rubocop:enable Naming/PredicateMethod
 
   def too_long(record)
     record.errors.add :base, I18n.t("errors.too_long")
@@ -56,7 +58,7 @@ class Parking < ApplicationRecord
 
   scope :today, -> { where("start_date <= ? AND end_date >= ?", Time.zone.today, Time.zone.today) }
   scope :future, -> { where("start_date > ?", Time.zone.today) }
-  scope :past, -> { where("end_date <= ?", Time.zone.today).order("start_date desc") }
+  scope :past, -> { where(end_date: ..Time.zone.today).order(start_date: :desc) }
 
   def self.to_csv
     attributes = ["id", "unit", "code", "make", "color", "license", "contact", "created_at", "start_date", "end_date"]

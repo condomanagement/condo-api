@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['3.2.2']
+        ruby-version: ['3.4.7']
 
     services:
       db:
@@ -56,7 +56,7 @@ jobs:
         GMAIL_ACCOUNT: ${{ vars.GMAIL_ACCOUNT }}
         GMAIL_PASSWORD: ${{ vars.GMAIL_PASSWORD }}
         NUMBER_OF_DAYS: ${{ vars.NUMBER_OF_DAYS }}
-        DOMAIN: ${{ vars.DOMAIN }}
+        DOMAIN: http://localhost:3001
         ADMINISTRATIVE_TOKEN: ${{ vars.ADMINISTRATIVE_TOKEN }}
         CONDO_API_DATABASE_PASSWORD: ${{ vars.CONDO_API_DATABASE_PASSWORD }}
         CONDO_API_DATABASE_USERNAME: ${{ vars.CONDO_API_DATABASE_USERNAME }}
