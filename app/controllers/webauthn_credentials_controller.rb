@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: true
 
 class WebauthnCredentialsController < ActionController::API
   before_action :authenticate_user!, except: [:authentication_options, :authenticate, :check_availability]
@@ -172,6 +173,40 @@ private
     @credential = user.webauthn_credentials.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Credential not found" }, status: :not_found
+  end
+
+  # Build WebAuthn options for authentication
+  def build_authentication_options
+    WebAuthn::Credential.options_for_get(
+      allow: @user.webauthn_credentials.pluck(:external_id),
+      user_verification: "preferred"
+    )
+  end
+
+  # Find and verify the credential
+  def find_and_verify_credential(webauthn_credential)
+    stored_credential = WebauthnCredential.find_by(external_id: webauthn_credential.id)
+    return nil unless stored_credential
+
+    # Verify the credential
+    webauthn_credential.verify(
+      session[:webauthn_authentication_challenge],
+      public_key: stored_credential.public_key,
+      sign_count: stored_credential.sign_count
+    )
+
+    # Update sign count and last used timestamp
+    stored_credential.update_usage!(webauthn_credential.sign_count)
+
+    stored_credential
+  end
+
+  # Create authentication token for the user
+  def create_authentication_token(credential)
+    credential.user.authentications.create!(
+      token: SecureRandom.hex(32),
+      used: false
+    )
   end
 
   def format_user(user)

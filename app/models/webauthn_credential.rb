@@ -1,6 +1,9 @@
 # frozen_string_literal: true
+# typed: strict
 
 class WebauthnCredential < ApplicationRecord
+  extend T::Sig
+
   belongs_to :user
 
   validates :external_id, presence: true, uniqueness: true
@@ -8,6 +11,7 @@ class WebauthnCredential < ApplicationRecord
   validates :sign_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   # Update the last used timestamp and sign count
+  sig { params(new_sign_count: Integer).void }
   def update_usage!(new_sign_count)
     update!(
       sign_count: new_sign_count,
