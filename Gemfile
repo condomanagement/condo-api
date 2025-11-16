@@ -36,6 +36,9 @@ gem "bootsnap", ">= 1.4.2", require: false
 
 gem "rails-healthcheck"
 
+# Sorbet static type checker
+gem "sorbet-runtime"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "debug", platforms: [:mri, :mingw, :x64_mingw]
@@ -45,6 +48,8 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "letter_opener"
+  gem "sorbet"
+  gem "tapioca", "~> 0.17", require: false
   gem "web-console", "~> 4.2"
 end
 

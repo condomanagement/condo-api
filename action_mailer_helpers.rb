@@ -7,7 +7,7 @@ private
 
   def action_mailer_job(mailer_class, mailer_method, *args)
     {
-      job: ActionMailer::DeliveryJob,
+      job: ActionMailer::MailDeliveryJob,
       args: [
         mailer_class.to_s,
         mailer_method,

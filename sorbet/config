@@ -1,0 +1,16 @@
+--dir
+.
+--ignore=/vendor/
+--ignore=/tmp/
+--ignore=/node_modules/
+--ignore=/coverage/
+--ignore=/log/
+--ignore=/public/
+--ignore=/storage/
+--ignore=/db/
+--ignore=/test/
+--ignore=/config/
+--ignore=/bin/
+--suppress-payload-superclass-redefinition-for=Psych::Parser::Mark
+--suppress-payload-superclass-redefinition-for=IRB::ReadlineInputMethod
+--suppress-payload-superclass-redefinition-for=IRB::RelineInputMethod

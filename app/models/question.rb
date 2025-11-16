@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# typed: strict
 
 class Question < ApplicationRecord
   default_scope { order(question: :asc) }
