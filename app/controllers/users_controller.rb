@@ -68,15 +68,23 @@ class UsersController < ActionController::API
 
   # POST /upload
   def upload
-    if valid_token?
-      begin
-        @result = users_object
-        create_users_from_upload
-      rescue JSON::ParserError
-        render json: { error: "invalid_json" }, status: :unprocessable_content
+    # Check for X-Administrative-Token first
+    if request.headers["X-Administrative-Token"].present?
+      unless request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
+        render json: { error: "invalid_token" }, status: :unprocessable_content
+        return
       end
-    else
-      render json: { error: "invalid_token" }, status: :unprocessable_content
+    elsif !admin?
+      # Cookie auth but not admin
+      render json: { error: "unauthorized" }, status: :unprocessable_content
+      return
+    end
+
+    begin
+      @result = users_object
+      create_users_from_upload
+    rescue JSON::ParserError
+      render json: { error: "invalid_json" }, status: :unprocessable_content
     end
   end
 

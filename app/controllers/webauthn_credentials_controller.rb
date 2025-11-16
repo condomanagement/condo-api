@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WebauthnCredentialsController < ActionController::API
-  before_action :authenticate_user!, except: [:authentication_options, :authenticate]
+  before_action :authenticate_user!, except: [:authentication_options, :authenticate, :check_availability]
   before_action :set_user_by_email, only: [:registration_options, :authentication_options]
   before_action :set_credential, only: [:destroy]
 
@@ -75,6 +75,7 @@ class WebauthnCredentialsController < ActionController::API
   # GET /webauthn/authentication_options
   # Generate options for passkey authentication
   def authentication_options
+    return render json: { error: "Email required" }, status: :bad_request if params[:email].blank?
     return render json: { error: "User not found" }, status: :not_found unless @user
 
     unless @user.passkeys_enabled?
@@ -151,7 +152,7 @@ class WebauthnCredentialsController < ActionController::API
 private
 
   def authenticate_user!
-    user = User.user_by_token(params[:token])
+    user = User.user_by_token(request.cookies["token"])
     render json: { error: "Unauthorized" }, status: :unauthorized unless user
   end
 
@@ -160,7 +161,7 @@ private
   end
 
   def set_credential
-    user = User.user_by_token(params[:token])
+    user = User.user_by_token(request.cookies["token"])
     return render json: { error: "Unauthorized" }, status: :unauthorized unless user
 
     @credential = user.webauthn_credentials.find(params[:id])
