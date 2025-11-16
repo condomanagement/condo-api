@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ElevatorBookingsController < ActionController::API
+  include Pagy::Backend
+
   before_action :set_elevator_booking, only: [:destroy]
 
   # GET /elevator_bookings/1
@@ -11,8 +13,38 @@ class ElevatorBookingsController < ActionController::API
       return
     end
 
-    @bookings = prep_bookings
-    render json: @bookings, status: :ok
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
+
+      pagy, bookings = pagy(ElevatorBooking.order(start: :desc), page: page, items: items)
+
+      @bookings = bookings.map do |b|
+        {
+          id: b.id, endTime: b.end, startTime: b.start, unit: b.unit,
+          name1: b.name1, name2: b.name2, user: b.user,
+          phoneDay: b.phone_day, phoneNight: b.phone_night, deposit: b.deposit,
+          moveType: b.moveType, status: b.status, moveIn: b.in, moveOut: b.out,
+          rejection: b.rejection
+        }
+      end
+
+      render json: {
+        bookings: @bookings,
+        pagy: pagy_metadata(pagy)
+      }, status: :ok
+    else
+      @bookings = ElevatorBooking.all.map do |b|
+        {
+          id: b.id, endTime: b.end, startTime: b.start, unit: b.unit,
+          name1: b.name1, name2: b.name2, user: b.user,
+          phoneDay: b.phone_day, phoneNight: b.phone_night, deposit: b.deposit,
+          moveType: b.moveType, status: b.status, moveIn: b.in, moveOut: b.out,
+          rejection: b.rejection
+        }
+      end
+      render json: @bookings, status: :ok
+    end
   end
 
   # POST /elevator_bookings

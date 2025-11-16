@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ActionController::API
+  include Pagy::Backend
+
   before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /users
@@ -10,10 +12,26 @@ class UsersController < ActionController::API
       return
     end
 
-    @users = User.all.map do |u|
-      format_user(u)
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
+
+      pagy, users = pagy(User.all, page: page, items: items)
+
+      @users = users.map do |u|
+        format_user(u)
+      end
+
+      render json: {
+        users: @users,
+        pagy: pagy_metadata(pagy)
+      }, status: :ok
+    else
+      @users = User.all.map do |u|
+        format_user(u)
+      end
+      render json: @users, status: :ok
     end
-    render json: @users, status: :ok
   end
 
   # GET /users/1

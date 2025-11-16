@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReservationsController < ActionController::API
+  include Pagy::Backend
+
   before_action :set_reservation, only: [:update, :destroy]
 
   # GET /reservations
@@ -11,8 +13,40 @@ class ReservationsController < ActionController::API
       return
     end
 
-    @reservations = prep_reservation
-    render json: @reservations, status: :ok
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
+
+      pagy, reservations = pagy(Reservation.order(start_time: :desc), page: page, items: items)
+
+      @reservations = reservations.map do |r|
+        {
+          id: r.id,
+          endTime: r.end_time,
+          startTime: r.start_time,
+          amenity: r.resource.name,
+          userName: r.user.name,
+          userEmail: r.user.email
+        }
+      end
+
+      render json: {
+        reservations: @reservations,
+        pagy: pagy_metadata(pagy)
+      }, status: :ok
+    else
+      @reservations = Reservation.all.map do |r|
+        {
+          id: r.id,
+          endTime: r.end_time,
+          startTime: r.start_time,
+          amenity: r.resource.name,
+          userName: r.user.name,
+          userEmail: r.user.email
+        }
+      end
+      render json: @reservations, status: :ok
+    end
   end
 
   # POST /reservations

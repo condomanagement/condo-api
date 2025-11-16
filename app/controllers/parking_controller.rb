@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ParkingController < ActionController::API
+  include Pagy::Backend
+
   def index
     @parking = Parking.new
     render json: @parking
@@ -25,11 +27,23 @@ class ParkingController < ActionController::API
       return
     end
 
-    @today = Parking.today
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
 
-    @it_today = prep_parking(@today)
+      pagy, today = pagy(Parking.today, page: page, items: items)
+      @it_today = prep_parking(today)
 
-    render json: @it_today
+      render json: {
+        parking: @it_today,
+        pagy: pagy_metadata(pagy)
+      }
+    else
+      @today = Parking.today
+      @it_today = prep_parking(@today)
+
+      render json: @it_today
+    end
   end
 
   def past
@@ -38,10 +52,23 @@ class ParkingController < ActionController::API
       return
     end
 
-    @past = Parking.past
-    @the_past = prep_parking(@past)
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
 
-    render json: @the_past
+      pagy, past = pagy(Parking.past, page: page, items: items)
+      @the_past = prep_parking(past)
+
+      render json: {
+        parking: @the_past,
+        pagy: pagy_metadata(pagy)
+      }
+    else
+      @past = Parking.past
+      @the_past = prep_parking(@past)
+
+      render json: @the_past
+    end
   end
 
   def future
@@ -50,11 +77,23 @@ class ParkingController < ActionController::API
       return
     end
 
-    @future = Parking.future
+    if params[:page] || params[:items]
+      page = params[:page] || 1
+      items = params[:items] || 25
 
-    @the_future = prep_parking(@future)
+      pagy, future = pagy(Parking.future, page: page, items: items)
+      @the_future = prep_parking(future)
 
-    render json: @the_future
+      render json: {
+        parking: @the_future,
+        pagy: pagy_metadata(pagy)
+      }
+    else
+      @future = Parking.future
+      @the_future = prep_parking(@future)
+
+      render json: @the_future
+    end
   end
 
 private

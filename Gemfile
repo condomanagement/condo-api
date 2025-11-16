@@ -29,6 +29,7 @@ gem "jbuilder", "~> 2.13"
 gem "csv", "~> 3.3"
 gem "dotenv-rails"
 gem "email_validator"
+gem "pagy", "~> 9.2"
 gem "webauthn", "~> 3.1"
 
 # Reduces boot times through caching; required in config/boot.rb
