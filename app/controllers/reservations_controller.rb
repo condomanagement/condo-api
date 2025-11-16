@@ -50,7 +50,7 @@ class ReservationsController < ActionController::API
     if @reservation.save
       render json: @reservation, status: :created
     else
-      render json: @reservation.errors, status: :unprocessable_entity
+      render json: @reservation.errors, status: :unprocessable_content
     end
   end
 
@@ -62,7 +62,7 @@ class ReservationsController < ActionController::API
     if @reservation.update(reservation_params)
       render json: @reservation, status: :ok
     else
-      render json: @reservation.errors, status: :unprocessable_entity
+      render json: @reservation.errors, status: :unprocessable_content
     end
   end
 
@@ -70,7 +70,7 @@ class ReservationsController < ActionController::API
     @user = User.user_by_token(request.cookies["token"])
     render json: { error: "invalid_token" }, status: :unauthorized and return false unless @user
     unless params[:date] || params[:resource]
-      render json: { error: "Bad query" }, status: :unprocessable_entity and return
+      render json: { error: "Bad query" }, status: :unprocessable_content and return
     end
 
     @reservations = query_reservations
@@ -112,7 +112,7 @@ private
 
   # Only allow a list of trusted parameters through.
   def reservation_params
-    params.require(:reservation).permit(:user_id, :resource_id, :start_time, :end_time, :resource_id)
+    params.expect(reservation: [:user_id, :resource_id, :start_time, :end_time, :resource_id])
   end
 
   def valid_answers?
@@ -140,12 +140,14 @@ private
     false
   end
 
+  # rubocop:disable Naming/PredicateMethod
   def query_valid_time(start_time, end_time)
     Reservation.where("(start_time, end_time) OVERLAPS (?, ?) AND resource_id = ?",
                       start_time,
                       end_time,
                       params[:reservation][:resource_id]).empty?
   end
+  # rubocop:enable Naming/PredicateMethod
 
   def valid_length?
     @resource = Resource.find(params[:reservation][:resource_id])

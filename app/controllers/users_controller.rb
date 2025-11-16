@@ -37,7 +37,7 @@ class UsersController < ActionController::API
     if @user.save
       render json: @user, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_content
     end
   end
 
@@ -51,7 +51,7 @@ class UsersController < ActionController::API
     if @user.update(user_params)
       render json: @user, status: :ok
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_content
     end
   end
 
@@ -73,10 +73,10 @@ class UsersController < ActionController::API
         @result = users_object
         create_users_from_upload
       rescue JSON::ParserError
-        render json: { error: "invalid_json" }, status: :unprocessable_entity
+        render json: { error: "invalid_json" }, status: :unprocessable_content
       end
     else
-      render json: { error: "invalid_token" }, status: :unprocessable_entity
+      render json: { error: "invalid_token" }, status: :unprocessable_content
     end
   end
 
@@ -86,6 +86,7 @@ class UsersController < ActionController::API
     @result
   end
 
+  # rubocop:disable Naming/PredicateMethod
   def new_user(person)
     return false if person &&
                     person["unit"] &&
@@ -94,6 +95,7 @@ class UsersController < ActionController::API
 
     true
   end
+  # rubocop:enable Naming/PredicateMethod
 
 private
 
@@ -105,7 +107,7 @@ private
       end
     rescue ActiveRecord::RecordInvalid
       saved = false
-      render json: { error: "missing_required_fields" }, status: :unprocessable_entity
+      render json: { error: "missing_required_fields" }, status: :unprocessable_content
     end
     render json: { success: true } if saved
   end
@@ -133,8 +135,8 @@ private
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user)
-          .permit(:name, :unit, :email, :phone, :active, :admin, :parking_admin, :resident_type, :vaccinated)
+    params
+      .expect(user: [:name, :unit, :email, :phone, :active, :admin, :parking_admin, :resident_type, :vaccinated])
   end
 
   def format_user(user)

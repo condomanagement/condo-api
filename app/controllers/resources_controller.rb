@@ -33,7 +33,7 @@ class ResourcesController < ActionController::API
     if @resource.save
       render json: @resource, status: :created
     else
-      render json: @resource.errors, status: :unprocessable_entity
+      render json: @resource.errors, status: :unprocessable_content
     end
   end
 
@@ -48,7 +48,7 @@ class ResourcesController < ActionController::API
     if @resource.update(resource_params)
       render json: @resource, status: :ok
     else
-      render json: @resource.errors, status: :unprocessable_entity
+      render json: @resource.errors, status: :unprocessable_content
     end
   end
 
@@ -73,6 +73,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def resource_params
-    params.require(:resource).permit(:name, :time_limit, :visible, :vaccine, :id)
+    params.expect(resource: [:name, :time_limit, :visible, :vaccine, :id])
   end
 end

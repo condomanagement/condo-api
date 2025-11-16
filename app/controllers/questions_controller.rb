@@ -6,7 +6,7 @@ class QuestionsController < ActionController::API
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.order("question ASC")
+    @questions = Question.order(:question)
     questions = @questions.map do |q|
       {
         id: q.id,
@@ -30,7 +30,7 @@ class QuestionsController < ActionController::API
     if @question.save
       render json: @question, status: :created
     else
-      render json: @question.errors, status: :unprocessable_entity
+      render json: @question.errors, status: :unprocessable_content
     end
   end
 
@@ -45,7 +45,7 @@ class QuestionsController < ActionController::API
     if @question.update(question_params)
       render json: @question, status: :ok
     else
-      render json: @question.errors, status: :unprocessable_entity
+      render json: @question.errors, status: :unprocessable_content
     end
   end
 
@@ -70,6 +70,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def question_params
-    params.require(:question).permit(:question, :required_answer)
+    params.expect(question: [:question, :required_answer])
   end
 end

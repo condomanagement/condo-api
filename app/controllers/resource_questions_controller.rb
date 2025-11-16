@@ -15,7 +15,7 @@ class ResourceQuestionsController < ActionController::API
     if @resource_question.save
       render json: @resource_question, status: :created
     else
-      render json: @resource_question.errors, status: :unprocessable_entity
+      render json: @resource_question.errors, status: :unprocessable_content
     end
   end
 
@@ -52,6 +52,6 @@ private
 
   # Only allow a list of trusted parameters through.
   def resource_question_params
-    params.require(:resource_question).permit(:question_id, :resource_id)
+    params.expect(resource_question: [:question_id, :resource_id])
   end
 end
