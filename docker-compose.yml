@@ -1,7 +1,7 @@
 version: '3'
 services:
   web:
-    image: ruby/3.2.2
+    image: ruby/3.4.7
     build: .
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
