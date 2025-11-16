@@ -68,17 +68,7 @@ class UsersController < ActionController::API
 
   # POST /upload
   def upload
-    # Check for X-Administrative-Token first
-    if request.headers["X-Administrative-Token"].present?
-      unless request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
-        render json: { error: "invalid_token" }, status: :unprocessable_content
-        return
-      end
-    elsif !admin?
-      # Cookie auth but not admin
-      render json: { error: "unauthorized" }, status: :unprocessable_content
-      return
-    end
+    return unless authorized_for_upload?
 
     begin
       @result = users_object
@@ -130,6 +120,30 @@ private
     return true if admin?
 
     false
+  end
+
+  def authorized_for_upload?
+    return authorized_token? if request.headers["X-Administrative-Token"].present?
+
+    authorized_admin?
+  end
+
+  def authorized_token?
+    if request.headers["X-Administrative-Token"] == ENV["ADMINISTRATIVE_TOKEN"]
+      true
+    else
+      render json: { error: "invalid_token" }, status: :unprocessable_content
+      false
+    end
+  end
+
+  def authorized_admin?
+    if admin?
+      true
+    else
+      render json: { error: "unauthorized" }, status: :unprocessable_content
+      false
+    end
   end
 
   def admin?

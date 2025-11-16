@@ -2,7 +2,8 @@
 
 class WebauthnCredentialsController < ActionController::API
   before_action :authenticate_user!, except: [:authentication_options, :authenticate, :check_availability]
-  before_action :set_user_by_email, only: [:registration_options, :authentication_options]
+  before_action :set_user_by_email, only: [:authentication_options]
+  before_action :set_user_from_token, only: [:registration_options]
   before_action :set_credential, only: [:destroy]
 
   # GET /webauthn/registration_options
@@ -158,6 +159,10 @@ private
 
   def set_user_by_email
     @user = User.find_by("LOWER(email) = ? AND active = true", params[:email]&.downcase)
+  end
+
+  def set_user_from_token
+    @user = User.user_by_token(request.cookies["token"])
   end
 
   def set_credential
