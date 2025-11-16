@@ -28,6 +28,11 @@ jobs:
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/condo_test
+      DOMAIN: https://localhost:3001
+      NUMBER_OF_DAYS: "4"
+      EMAIL: test@example.com
+      ELEVATOR_EMAIL_DELIVERY: delivery@example.com
+      ELEVATOR_EMAIL_MOVE: move@example.com
 
     steps:
     - uses: actions/checkout@v4
