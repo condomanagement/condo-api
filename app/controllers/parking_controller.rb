@@ -22,77 +22,41 @@ class ParkingController < ActionController::API
   end
 
   def today
-    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
+    unless parking_authorized?
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end
 
-    if params[:page] || params[:items]
-      page = params[:page] || 1
-      items = params[:items] || 25
-
-      pagy, today = pagy(Parking.today, page: page, items: items)
-      @it_today = prep_parking(today)
-
-      render json: {
-        parking: @it_today,
-        pagy: pagy_metadata(pagy)
-      }
+    if paginated?
+      render_paginated_parking(Parking.today)
     else
-      @today = Parking.today
-      @it_today = prep_parking(@today)
-
-      render json: @it_today
+      render json: prep_parking(Parking.today)
     end
   end
 
   def past
-    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
+    unless parking_authorized?
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end
 
-    if params[:page] || params[:items]
-      page = params[:page] || 1
-      items = params[:items] || 25
-
-      pagy, past = pagy(Parking.past, page: page, items: items)
-      @the_past = prep_parking(past)
-
-      render json: {
-        parking: @the_past,
-        pagy: pagy_metadata(pagy)
-      }
+    if paginated?
+      render_paginated_parking(Parking.past)
     else
-      @past = Parking.past
-      @the_past = prep_parking(@past)
-
-      render json: @the_past
+      render json: prep_parking(Parking.past)
     end
   end
 
   def future
-    unless User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
+    unless parking_authorized?
       render json: { error: "invalid_token" }, status: :unauthorized
       return
     end
 
-    if params[:page] || params[:items]
-      page = params[:page] || 1
-      items = params[:items] || 25
-
-      pagy, future = pagy(Parking.future, page: page, items: items)
-      @the_future = prep_parking(future)
-
-      render json: {
-        parking: @the_future,
-        pagy: pagy_metadata(pagy)
-      }
+    if paginated?
+      render_paginated_parking(Parking.future)
     else
-      @future = Parking.future
-      @the_future = prep_parking(@future)
-
-      render json: @the_future
+      render json: prep_parking(Parking.future)
     end
   end
 
@@ -115,5 +79,21 @@ private
         unit: p.unit
       }
     end
+  end
+
+  def paginated?
+    params[:page] || params[:items]
+  end
+
+  def parking_authorized?
+    User.admin_by_token?(request.cookies["token"]) || User.parking_admin_by_token?(request.cookies["token"])
+  end
+
+  def render_paginated_parking(scope)
+    page = params[:page] || 1
+    items = params[:items] || 25
+    pagy, records = pagy(scope, page: page, items: items)
+
+    render json: { parking: prep_parking(records), pagy: pagy_metadata(pagy) }
   end
 end

@@ -12,25 +12,10 @@ class UsersController < ActionController::API
       return
     end
 
-    if params[:page] || params[:items]
-      page = params[:page] || 1
-      items = params[:items] || 25
-
-      pagy, users = pagy(User.all, page: page, items: items)
-
-      @users = users.map do |u|
-        format_user(u)
-      end
-
-      render json: {
-        users: @users,
-        pagy: pagy_metadata(pagy)
-      }, status: :ok
+    if paginated?
+      render_paginated_users
     else
-      @users = User.all.map do |u|
-        format_user(u)
-      end
-      render json: @users, status: :ok
+      render_all_users
     end
   end
 
@@ -194,5 +179,23 @@ private
       type: user.resident_type,
       vaccinated: user.vaccinated
     }
+  end
+
+  def paginated?
+    params[:page] || params[:items]
+  end
+
+  def render_paginated_users
+    page = params[:page] || 1
+    items = params[:items] || 25
+    pagy, users = pagy(User.all, page: page, items: items)
+
+    @users = users.map { |u| format_user(u) }
+    render json: { users: @users, pagy: pagy_metadata(pagy) }, status: :ok
+  end
+
+  def render_all_users
+    @users = User.all.map { |u| format_user(u) }
+    render json: @users, status: :ok
   end
 end

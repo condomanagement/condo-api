@@ -13,39 +13,10 @@ class ReservationsController < ActionController::API
       return
     end
 
-    if params[:page] || params[:items]
-      page = params[:page] || 1
-      items = params[:items] || 25
-
-      pagy, reservations = pagy(Reservation.order(start_time: :desc), page: page, items: items)
-
-      @reservations = reservations.map do |r|
-        {
-          id: r.id,
-          endTime: r.end_time,
-          startTime: r.start_time,
-          amenity: r.resource.name,
-          userName: r.user.name,
-          userEmail: r.user.email
-        }
-      end
-
-      render json: {
-        reservations: @reservations,
-        pagy: pagy_metadata(pagy)
-      }, status: :ok
+    if paginated?
+      render_paginated_reservations
     else
-      @reservations = Reservation.all.map do |r|
-        {
-          id: r.id,
-          endTime: r.end_time,
-          startTime: r.start_time,
-          amenity: r.resource.name,
-          userName: r.user.name,
-          userEmail: r.user.email
-        }
-      end
-      render json: @reservations, status: :ok
+      render_all_reservations
     end
   end
 
@@ -233,5 +204,34 @@ private
         endTime: r.end_time
       }
     end
+  end
+
+  def paginated?
+    params[:page] || params[:items]
+  end
+
+  def format_reservation(reservation)
+    {
+      id: reservation.id,
+      endTime: reservation.end_time,
+      startTime: reservation.start_time,
+      amenity: reservation.resource.name,
+      userName: reservation.user.name,
+      userEmail: reservation.user.email
+    }
+  end
+
+  def render_paginated_reservations
+    page = params[:page] || 1
+    items = params[:items] || 25
+    pagy, reservations = pagy(Reservation.order(start_time: :desc), page: page, items: items)
+
+    @reservations = reservations.map { |r| format_reservation(r) }
+    render json: { reservations: @reservations, pagy: pagy_metadata(pagy) }, status: :ok
+  end
+
+  def render_all_reservations
+    @reservations = Reservation.all.map { |r| format_reservation(r) }
+    render json: @reservations, status: :ok
   end
 end
