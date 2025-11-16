@@ -76,7 +76,7 @@ class UsersController < ActionController::API
         render json: { error: "invalid_json" }, status: :unprocessable_content
       end
     else
-      render json: { error: "invalid_token" }, status: :unprocessable_content
+      render json: { error: "invalid_token" }, status: :unprocessable_entity
     end
   end
 
@@ -128,9 +128,11 @@ private
     return false unless request.cookies["token"]
 
     @authentication = Authentication.find_by(token: request.cookies["token"])
-    return true if @authentication&.user&.admin && @authentication&.user.active
+    return false unless @authentication&.user
+    return false unless @authentication.user.admin == true
+    return false unless @authentication.user.active == true
 
-    false
+    true
   end
 
   # Only allow a list of trusted parameters through.
