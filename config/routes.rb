@@ -68,6 +68,9 @@ Rails.application.routes.draw do
     post "logout", to: "authentications#logout"
   end
 
+  # Email magic link verification
+  get "/authenticate/:emailKey", to: "authentications#process_login"
+
   # WebAuthn/Passkey routes
   scope :webauthn do
     get "registration_options", to: "webauthn_credentials#registration_options", as: "webauthn_registration_options"
@@ -142,6 +145,9 @@ Rails.application.routes.draw do
       post "valid", to: "authentications#valid"
       post "logout", to: "authentications#logout"
     end
+
+    # Email magic link verification
+    get "/authenticate/:emailKey", to: "authentications#process_login"
 
     # WebAuthn/Passkey routes
     scope :webauthn do
