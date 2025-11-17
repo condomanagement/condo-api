@@ -76,19 +76,22 @@ class WebauthnCredentialsController < ActionController::API
 
   # GET /webauthn/authentication_options
   # Generate options for passkey authentication
+  # Supports both email-based and usernameless authentication
   def authentication_options
-    return render json: { error: "Email required" }, status: :bad_request if params[:email].blank?
-    return render json: { error: "User not found" }, status: :not_found unless @user
+    if params[:email].present?
+      # Email-based authentication
+      return render json: { error: "User not found" }, status: :not_found unless @user
 
-    unless @user.passkeys_enabled?
-      return render json: { error: "No passkeys registered", passkeys_available: false },
-                    status: :not_found
+      unless @user.passkeys_enabled?
+        return render json: { error: "No passkeys registered", passkeys_available: false },
+                      status: :not_found
+      end
     end
 
     options = build_authentication_options
     session[:webauthn_authentication_challenge] = options.challenge
 
-    render json: options.merge(passkeys_available: true)
+    render json: options.as_json.merge(passkeys_available: true)
   end
 
   # POST /webauthn/authenticate
@@ -177,10 +180,17 @@ private
 
   # Build WebAuthn options for authentication
   def build_authentication_options
-    WebAuthn::Credential.options_for_get(
-      allow: @user.webauthn_credentials.pluck(:external_id),
+    # For usernameless auth, allow any credential (discoverable credentials)
+    # For email-based auth, restrict to user's credentials
+    options = {
       user_verification: "preferred"
-    )
+    }
+    
+    if @user.present?
+      options[:allow] = @user.webauthn_credentials.pluck(:external_id)
+    end
+    
+    WebAuthn::Credential.options_for_get(**options)
   end
 
   # Find and verify the credential
@@ -196,7 +206,7 @@ private
     )
 
     # Update sign count and last used timestamp
-    stored_credential.update_usage!(webauthn_credential.sign_count)
+    stored_credential.update_usage!(webauthn_credential.sign_count.to_i)
 
     stored_credential
   end
@@ -204,6 +214,7 @@ private
   # Create authentication token for the user
   def create_authentication_token(credential)
     credential.user.authentications.create!(
+      emailtoken: "passkey:#{credential.external_id}",
       token: SecureRandom.hex(32),
       used: false
     )
