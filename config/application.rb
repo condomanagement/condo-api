@@ -37,5 +37,8 @@ module CondoApi
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Application version
+    config.version = "1.0.0"
   end
 end
