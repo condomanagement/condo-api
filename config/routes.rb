@@ -2,9 +2,9 @@
 
 Rails.application.routes.draw do
   Healthcheck.routes(self)
-  resources :authentications
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   scope :api do
+    resources :authentications
     scope :reservations do
       get "mine", to: "reservations#mine"
       post "create", to: "reservations#create"
@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     end
     resources :users
 
+    resources :authentications
     scope :authentication do
       post "login", to: "authentications#login"
       post "process_login", to: "authentications#process_login"
