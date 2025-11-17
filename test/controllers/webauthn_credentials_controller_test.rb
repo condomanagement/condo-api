@@ -23,9 +23,12 @@ class WebauthnCredentialsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "should not get authentication options without email" do
+  test "should get authentication options for usernameless auth" do
     get webauthn_authentication_options_path
-    assert_response :bad_request
+    assert_response :success
+    json = response.parsed_body
+    assert_not_nil json["challenge"]
+    assert_equal [], json["allowCredentials"]
   end
 
   test "should check passkey availability" do

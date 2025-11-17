@@ -185,11 +185,9 @@ private
     options = {
       user_verification: "preferred"
     }
-    
-    if @user.present?
-      options[:allow] = @user.webauthn_credentials.pluck(:external_id)
-    end
-    
+
+    options[:allow] = @user.webauthn_credentials.pluck(:external_id) if @user.present?
+
     WebAuthn::Credential.options_for_get(**options)
   end
 
