@@ -39,7 +39,7 @@ class WebauthnCredentialsController < ActionController::API
   # Complete passkey registration
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def register
-    user = User.user_by_token(params[:token])
+    user = User.user_by_token(request.cookies["token"])
     return render json: { error: "Unauthorized" }, status: :unauthorized unless user
 
     begin
@@ -114,7 +114,7 @@ class WebauthnCredentialsController < ActionController::API
   # GET /webauthn/credentials
   # List all passkeys for current user
   def index
-    user = User.user_by_token(params[:token])
+    user = User.user_by_token(request.cookies["token"])
     return render json: { error: "Unauthorized" }, status: :unauthorized unless user
 
     credentials = user.webauthn_credentials.map do |cred|
